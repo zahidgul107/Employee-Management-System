@@ -69,6 +69,7 @@ public class AdminDashboardController {
 		return "redirect:/viewEmployees";
 	}
 
+	
 	@GetMapping("/updateEmployee/{id}")
 	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
 		// get employee from database

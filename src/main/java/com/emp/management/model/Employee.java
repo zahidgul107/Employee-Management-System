@@ -19,6 +19,7 @@ public class Employee {
 	private String email;
 	private String userName;
 	private String password;
+	private String token;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private EmployeeDesignation employeeDesignation;
@@ -72,6 +73,12 @@ public class Employee {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }
