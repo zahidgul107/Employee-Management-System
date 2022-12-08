@@ -21,6 +21,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 fixed-top">
 		<div class="container-fluid">
+			<i class="fas fa-users fa-lg text-white mx-3"></i>
 			<a class="navbar-brand" href="#">Employee Management System</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -30,8 +31,12 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
+					
+							<li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="#">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fa-solid fa-right-to-bracket fa-lg"></i></a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/home}">Logout</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -52,6 +57,10 @@
 	<h1 class="text-center mt-5 py-5">Admin Dashboard</h1>
 
 	<div class="container">
+
+		<div th:if="${success != null}" th:text="${success}" id="failMessage"
+			class="alert alert-info mssg" role="alert"></div>
+
 
 		<div class="row justify-content-around">
 
@@ -105,12 +114,26 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a th:href="@{/viewEmployeesAttendance}" class="btn btn-primary">View Employees Attendance</a>
+					<a th:href="@{/viewEmployeesAttendance}" class="btn btn-primary">View
+						Employees Attendance</a>
 				</div>
 			</div>
 
 		</div>
 	</div>
+
+
+
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('.mssg').remove();
+		}, 2500);
+	</script>
+
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 	<!-- Optional JavaScript; choose one of the two! -->
 

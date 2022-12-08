@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
@@ -37,9 +38,9 @@ public class EmployeeDashboard {
 		
 		return "login";
 	}
-	public int empid;
+	
 	@PostMapping("/login")
-	public String signIn(@ModelAttribute("employee") Employee employee) {
+	public String signIn(@ModelAttribute("employee") Employee employee,RedirectAttributes rd) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		List<Employee> employeeList = employeeRepo.findAll();
 		
@@ -51,10 +52,12 @@ public class EmployeeDashboard {
 			if (bcrypt.matches(employee.getPassword(), emp.getPassword()) && emp.getUserName().equals(employee.getUserName())) {
 				emp.setToken(randomString());
 			    employeeRepo.save(emp);
+			    rd.addFlashAttribute("success", "Login In successfully");
 		//	if (emp.getUserName().equals(employee.getUserName()) && emp.getPassword().equals(employee.getPassword())) {
 				return "redirect:/employeeView";	
 			}
 		}
+		rd.addFlashAttribute("fail", "username or password incorrect");
 		return "redirect:/employeeLogin";
 	}
 	
@@ -78,8 +81,9 @@ public class EmployeeDashboard {
 	}
 	
 	@PostMapping("/saveAttendance")
-	public String saveAttendance(@ModelAttribute("attendance") Attendance attendance) {
+	public String saveAttendance(@ModelAttribute("attendance") Attendance attendance,RedirectAttributes rd) {
 		attendanceRepo.save(attendance);
+		rd.addFlashAttribute("success","Attendance submitted successfull");
 		return "redirect:/employeeView";
 		
 	}

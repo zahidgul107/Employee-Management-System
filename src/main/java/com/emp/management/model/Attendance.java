@@ -27,7 +27,7 @@ public class Attendance {
 	private String status;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Employee employee;
 	
 	
