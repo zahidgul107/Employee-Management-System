@@ -5,173 +5,205 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<script src="https://kit.fontawesome.com/6a0044bbda.js"
+	crossorigin="anonymous"></script>
+
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-	
- 	<style>
+
+<style>
 body {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	scrollbar-width: none; /* Firefox */
 }
-body::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+
+body::-webkit-scrollbar {
+	display: none; /* Safari and Chrome */
 }
-	</style>
+</style>
 
 <title>Employee Management System</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark py-3">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Employee Management System</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Login
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" th:href="@{/adminLogin}">Admin Login</a></li>
-            <li><a class="dropdown-item" th:href="@{/employeeLogin}">Employee Login</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
+	<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark py-3">
+		<div class="container-fluid">
+			<i class="fas fa-users fa-lg text-white mx-3"></i> <a
+				class="navbar-brand" href="#">Employee Management System</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fa-solid fa-right-to-bracket fa-lg"></i></a></li>
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Login </a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" th:href="@{/adminLogin}">Admin
+									Login</a></li>
+							<li><a class="dropdown-item" th:href="@{/employeeLogin}">Employee
+									Login</a></li>
+						</ul></li>
+				</ul>
+				<form class="d-flex">
+					<input class="form-control me-2" type="search" placeholder="Search"
+						aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
 
 
 
-<div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="1000">
-      <img src="" th:src="@{img/first_slide.jpg}" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h1 class=>This
-		is the Home view</h1>
-      </div>
-    </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="" th:src="@{img/second_slide.jpg}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item" data-bs-interval="3000">
-      <img src="" th:src="@{img/third_slide.jpg}" class="d-block w-100" alt="...">
-    </div>
-  </div>
-</div>
+	<div id="carouselExampleSlidesOnly"
+		class="carousel slide carousel-fade" data-bs-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active" data-bs-interval="1000">
+				<img src="" th:src="@{img/first_slide.jpg}" class="d-block w-100"
+					alt="...">
+				<div class="carousel-caption d-none d-md-block">
+					<h1 class=>This is the Home view</h1>
+				</div>
+			</div>
+			<div class="carousel-item" data-bs-interval="2000">
+				<img src="" th:src="@{img/second_slide.jpg}" class="d-block w-100"
+					alt="...">
+			</div>
+			<div class="carousel-item" data-bs-interval="3000">
+				<img src="" th:src="@{img/third_slide.jpg}" class="d-block w-100"
+					alt="...">
+			</div>
+		</div>
+	</div>
 
 
 
-<!--footer  -->
+	<!--footer  -->
 
-<!-- Remove the container if you want to extend the Footer to full width. -->
-<div class="">
+	<!-- Remove the container if you want to extend the Footer to full width. -->
+	<div class="">
 
-  <footer class="text-white text-center text-lg-start bg-dark">
-    <!-- Grid container -->
-    <div class="container p-4">
-      <!--Grid row-->
-      <div class="row mt-4">
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4">About company</h5>
+		<footer class="text-white text-center text-lg-start bg-dark">
+			<!-- Grid container -->
+			<div class="container p-4">
+				<!--Grid row-->
+				<div class="row mt-4">
+					<!--Grid column-->
+					<div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+						<h5 class="text-uppercase mb-4">About company</h5>
 
-          <p>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-            voluptatum deleniti atque corrupti.
-          </p>
+						<p>At vero eos et accusamus et iusto odio dignissimos ducimus
+							qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
 
-          <p>
-            Blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas
-            molestias.
-          </p>
+						<p>Blanditiis praesentium voluptatum deleniti atque corrupti
+							quos dolores et quas molestias.</p>
 
-          <div class="mt-4">
-            <!-- Facebook -->
-            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-facebook-f"></i></a>
-            <!-- Dribbble -->
-            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-dribbble"></i></a>
-            <!-- Twitter -->
-            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-twitter"></i></a>
-            <!-- Google + -->
-            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-google-plus-g"></i></a>
-            <!-- Linkedin -->
-          </div>
-        </div>
-        <!--Grid column-->
+						<div class="mt-4">
+							<!-- Facebook -->
+							<a type="button" class="btn btn-floating btn-light btn-lg"><i
+								class="fab fa-facebook-f"></i></a>
+							<!-- Dribbble -->
+							<a type="button" class="btn btn-floating btn-light btn-lg"><i
+								class="fab fa-dribbble"></i></a>
+							<!-- Twitter -->
+							<a type="button" class="btn btn-floating btn-light btn-lg"><i
+								class="fab fa-twitter"></i></a>
+							<!-- Google + -->
+							<a type="button" class="btn btn-floating btn-light btn-lg"><i
+								class="fab fa-google-plus-g"></i></a>
+							<!-- Linkedin -->
+						</div>
+					</div>
+					<!--Grid column-->
 
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4 pb-1">Search something</h5>
+					<!--Grid column-->
+					<div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+						<h5 class="text-uppercase mb-4 pb-1">Search something</h5>
 
-          <div class="form-outline form-white mb-4">
-            <input type="text" id="formControlLg" class="form-control form-control-lg" />
-            <label class="form-label" for="formControlLg">Search</label>
-          </div>
+						<div class="form-outline form-white mb-4">
+							<input type="text" id="formControlLg"
+								class="form-control form-control-lg" /> <label
+								class="form-label" for="formControlLg">Search</label>
+						</div>
 
-          <ul class="fa-ul" style="margin-left: 1.65em;">
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Warsaw, 00-967, Poland</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">contact@example.com</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 48 234 567 88</span>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
+						<ul class="fa-ul" style="margin-left: 1.65em;">
+							<li class="mb-3"><span class="fa-li"><i
+									class="fas fa-home"></i></span><span class="ms-2">Warsaw,
+									00-967, Poland</span></li>
+							<li class="mb-3"><span class="fa-li"><i
+									class="fas fa-envelope"></i></span><span class="ms-2">contact@example.com</span>
+							</li>
+							<li class="mb-3"><span class="fa-li"><i
+									class="fas fa-phone"></i></span><span class="ms-2">+ 48 234 567
+									88</span></li>
+						</ul>
+					</div>
+					<!--Grid column-->
 
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4">Opening hours</h5>
+					<!--Grid column-->
+					<div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+						<h5 class="text-uppercase mb-4">Opening hours</h5>
 
-          <table class="table text-center text-white">
-            <tbody class="fw-normal">
-              <tr>
-                <td>Mon - Thu:</td>
-                <td>8am - 9pm</td>
-              </tr>
-              <tr>
-                <td>Fri - Sat:</td>
-                <td>8am - 1am</td>
-              </tr>
-              <tr>
-                <td>Sunday:</td>
-                <td>9am - 10pm</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!--Grid column-->
-      </div>
-      <!--Grid row-->
-    </div>
-    <!-- Grid container -->
+						<table class="table text-center text-white">
+							<tbody class="fw-normal">
+								<tr>
+									<td>Mon - Thu:</td>
+									<td>8am - 9pm</td>
+								</tr>
+								<tr>
+									<td>Fri - Sat:</td>
+									<td>8am - 1am</td>
+								</tr>
+								<tr>
+									<td>Sunday:</td>
+									<td>9am - 10pm</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!--Grid column-->
+				</div>
+				<!--Grid row-->
+			</div>
+			<!-- Grid container -->
 
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2020 Copyright:
-      <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
+			<!-- Copyright -->
+			<div class="text-center p-3"
+				style="background-color: rgba(0, 0, 0, 0.2);">
+				© 2020 Copyright: <a class="text-white"
+					href="https://mdbootstrap.com/">MDBootstrap.com</a>
+			</div>
+			<!-- Copyright -->
+		</footer>
 
-</div>
-<!-- End of .container -->
+	</div>
+	<!-- End of .container -->
+
+
+
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('.mssg').remove();
+		}, 2500);
+	</script>
+
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 	<!-- Optional JavaScript; choose one of the two! -->
 

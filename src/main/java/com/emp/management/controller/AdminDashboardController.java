@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
@@ -48,11 +49,12 @@ public class AdminDashboardController {
 	}
 
 	@PostMapping("/saveEmployee")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
+	public String saveEmployee(@ModelAttribute("employee") Employee employee,RedirectAttributes rd) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		String encryptedPwd = bcrypt.encode(employee.getPassword());
 		employee.setPassword(encryptedPwd);
 		empRepo.save(employee);
+		rd.addFlashAttribute("success", "employee registered successfully");
 		return "redirect:/adminLogin";
 
 	}
@@ -64,17 +66,18 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/deleteEmployee/{id}")
-	public String deleteEmployee(@PathVariable(value = "id") int id) {
+	public String deleteEmployee(@PathVariable(value = "id") int id,RedirectAttributes rd) {
 		this.empRepo.deleteById(id);
+		rd.addFlashAttribute("delete", "employee deleted successfully");
 		return "redirect:/viewEmployees";
 	}
 
+	
 	@GetMapping("/updateEmployee/{id}")
 	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
 		// get employee from database
 		model.addAttribute("employee", empRepo.getById(id));
 		List<EmployeeDesignation> listDesignation = empDesigRepo.findAll();
-
 		model.addAttribute("listDesignation", listDesignation);
 		return "employee_form";
 	}
@@ -91,8 +94,9 @@ public class AdminDashboardController {
 
 	// saving to database
 	@PostMapping("/saveEmployeeDesignation")
-	public String saveEmployee(@ModelAttribute("empDesig") EmployeeDesignation empDesig) {
+	public String saveEmployee(@ModelAttribute("empDesig") EmployeeDesignation empDesig,RedirectAttributes rd) {
 		empDesigRepo.save(empDesig);
+		rd.addFlashAttribute("success", "Successfully added designation");
 		return "redirect:/adminLogin";
 
 	}
@@ -105,8 +109,9 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/deleteDesignation/{id}")
-	public String deleteDesignation(@PathVariable(value = "id") int id) {
+	public String deleteDesignation(@PathVariable(value = "id") int id,RedirectAttributes rd) {
 		this.empDesigRepo.deleteById(id);
+		rd.addFlashAttribute("delete", "designation deleted successfully");
 		return "redirect:/viewDesignations";
 	}
 	

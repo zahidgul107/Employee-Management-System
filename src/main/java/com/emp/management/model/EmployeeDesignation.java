@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class EmployeeDesignation {
@@ -13,7 +14,6 @@ public class EmployeeDesignation {
 	private int id;
 	
 	private String designation;
-	
 	
 	public int getId() {
 		return id;

@@ -8,7 +8,7 @@ public class EmployeeManagementProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeManagementProjectApplication.class, args);
-		System.out.println("hello world");
+		System.out.println("Karsa Brower open");
 	}
 
 }

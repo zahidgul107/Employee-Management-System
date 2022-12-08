@@ -2,6 +2,7 @@ package com.emp.management.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +20,9 @@ public class Employee {
 	private String email;
 	private String userName;
 	private String password;
+	private String token;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private EmployeeDesignation employeeDesignation;
 	
 	
@@ -72,6 +74,12 @@ public class Employee {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }
