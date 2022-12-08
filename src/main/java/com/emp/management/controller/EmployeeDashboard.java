@@ -37,7 +37,7 @@ public class EmployeeDashboard {
 		
 		return "login";
 	}
-	
+	public int empid;
 	@PostMapping("/login")
 	public String signIn(@ModelAttribute("employee") Employee employee) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -49,8 +49,8 @@ public class EmployeeDashboard {
 			System.out.println(emp.getUserName());
 			System.out.println(emp.getPassword());
 			if (bcrypt.matches(employee.getPassword(), emp.getPassword()) && emp.getUserName().equals(employee.getUserName())) {
-				employee.setToken(randomString());
-			    employeeRepo.save(employee);
+				emp.setToken(randomString());
+			    employeeRepo.save(emp);
 		//	if (emp.getUserName().equals(employee.getUserName()) && emp.getPassword().equals(employee.getPassword())) {
 				return "redirect:/employeeView";	
 			}
@@ -74,7 +74,6 @@ public class EmployeeDashboard {
 		model.addAttribute("attendance", attendance);
 		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
 		model.addAttribute("listEmployees", listEmployees);
-		
 		return "attendance_form";
 	}
 	
