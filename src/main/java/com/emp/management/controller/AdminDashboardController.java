@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.standard.expression.Each;
 
 import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
@@ -27,7 +28,7 @@ public class AdminDashboardController {
 
 	@Autowired
 	private EmployeeDesignationRepository empDesigRepo;
-	
+
 	@Autowired
 	private AttendanceRepository attendanceRepo;
 
@@ -49,14 +50,28 @@ public class AdminDashboardController {
 	}
 
 	@PostMapping("/saveEmployee")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee,RedirectAttributes rd) {
+	public String saveEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes rd) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-		String encryptedPwd = bcrypt.encode(employee.getPassword());
-		employee.setPassword(encryptedPwd);
-		empRepo.save(employee);
-		rd.addFlashAttribute("success", "employee registered successfully");
-		return "redirect:/adminLogin";
-
+		
+/*		Employee emp = empRepo.checkByUserName(employee.getUserName());
+		if (empRepo.findByEmail(employee.getEmail()) != null) {
+			System.out.println("faillllllll");
+			rd.addFlashAttribute("fail", "Email already exists");
+			return "redirect:/showEmployeeForm";
+		} else if (emp == null) {
+			System.out.println("username exists");
+			rd.addFlashAttribute("fail", "username already exists");
+			return "redirect:/showEmployeeForm";
+		} else {		*/
+			System.out.println(employee.getFirstName());
+			String firstName = employee.getFirstName();
+			
+			String encryptedPwd = bcrypt.encode(employee.getPassword());
+			employee.setPassword(encryptedPwd);
+			empRepo.save(employee);
+			rd.addFlashAttribute("success", "employee registered successfully");
+			return "redirect:/adminLogin";
+//		}
 	}
 
 	@GetMapping("/viewEmployees")
@@ -66,13 +81,12 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/deleteEmployee/{id}")
-	public String deleteEmployee(@PathVariable(value = "id") int id,RedirectAttributes rd) {
+	public String deleteEmployee(@PathVariable(value = "id") int id, RedirectAttributes rd) {
 		this.empRepo.deleteById(id);
 		rd.addFlashAttribute("delete", "employee deleted successfully");
 		return "redirect:/viewEmployees";
 	}
 
-	
 	@GetMapping("/updateEmployee/{id}")
 	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
 		// get employee from database
@@ -94,7 +108,7 @@ public class AdminDashboardController {
 
 	// saving to database
 	@PostMapping("/saveEmployeeDesignation")
-	public String saveEmployee(@ModelAttribute("empDesig") EmployeeDesignation empDesig,RedirectAttributes rd) {
+	public String saveEmployee(@ModelAttribute("empDesig") EmployeeDesignation empDesig, RedirectAttributes rd) {
 		empDesigRepo.save(empDesig);
 		rd.addFlashAttribute("success", "Successfully added designation");
 		return "redirect:/adminLogin";
@@ -109,27 +123,27 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/deleteDesignation/{id}")
-	public String deleteDesignation(@PathVariable(value = "id") int id,RedirectAttributes rd) {
+	public String deleteDesignation(@PathVariable(value = "id") int id, RedirectAttributes rd) {
 		this.empDesigRepo.deleteById(id);
 		rd.addFlashAttribute("delete", "designation deleted successfully");
 		return "redirect:/viewDesignations";
 	}
-	
+
 	@GetMapping("/viewEmployeesAttendance")
 	public String viewEmployeesAttendance(Model model) {
 		model.addAttribute("listEmployees", empRepo.findAll());
 		return "view_employees_attendance";
 	}
-	
+
 	@GetMapping("/viewAttendance/{id}")
-	public String viewAttendance(@PathVariable(value="id") int id,Model model) {
-		 
-	List<Attendance> attendanceList=attendanceRepo.findByEmployeeId(id);
-	model.addAttribute("attendanceList", attendanceList);
+	public String viewAttendance(@PathVariable(value = "id") int id, Model model) {
+
+		List<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id);
+		model.addAttribute("attendanceList", attendanceList);
 		for (Attendance employeeAttendance : attendanceList) {
-			System.err.println(employeeAttendance.getStatus()+"<<<<<<<<<<<<");	
+			System.err.println(employeeAttendance.getStatus() + "<<<<<<<<<<<<");
 		}
-		
+
 		/*
 		 * List<Attendance> attendanceList = attendanceRepo.findAll(); for (Attendance
 		 * attendance : attendanceList) {
@@ -137,7 +151,7 @@ public class AdminDashboardController {
 		 * model.addAttribute("attendanceList", attendanceList);
 		 */
 		return "view_attendance";
-		
+
 	}
 
 }

@@ -57,6 +57,9 @@
 				class="card text-white bg-secondary px-5 py-5 mt-5 col-md-6 offset-md-3"
 				style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 				<h1 class="text-center">Add Employee</h1>
+				
+				<div th:if="${fail != null}" th:text="${fail}" id="failMessage"
+					class="alert alert-danger" role="alert"></div>
 
 				<form action="#" th:action="@{/saveEmployee}"
 					th:object="${employee}" method="POST">
@@ -118,6 +121,18 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('#failMessage').remove();
+		}, 2500);
+	</script>
+
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 	<!-- Optional JavaScript; choose one of the two! -->
 

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
 
 @Repository
@@ -23,4 +22,24 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 //	List<Attendance> findByEmployee(@Param("name") String name);
 	
 	public List<Employee> findByTokenIsNotNull();
+	
+
+//	@Query("SELECT COUNT(u.id) FROM Employee u WHERE u.email=:email") 
+//	Long countEmployeeWithEmail(String email);
+	
+//	@Query("SELECT u FROM Employee u WHERE u.email !=:email")
+//	Employee checkByEmail(@Param ("email") String email);
+	
+	Employee findByEmail(String email);
+
+
+	public Employee findByUserName(String userName);
+	
+	
+	  @Query("SELECT u FROM Employee u WHERE u.userName !=:userName") 
+	  public Employee checkByUserName(@Param ("userName") String userName);
+
+
+	
+	 
 }
