@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.emp.management.model.Employee;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
+public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 // @Query(value = "SELECT token FROM employee WHERE token IS NOT NULL", nativeQuery = true)
 // public List<Employee> getEmployeeByToken();
 // @Query("Select a from Attendance a where a. Employee.firstName=:name")

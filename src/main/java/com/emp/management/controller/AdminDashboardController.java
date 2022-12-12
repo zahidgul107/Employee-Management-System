@@ -1,5 +1,6 @@
 package com.emp.management.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,20 @@ public class AdminDashboardController {
 			return "redirect:/showEmployeeForm";
 		} else {		*/
 			System.out.println(employee.getFirstName());
-			String firstName = employee.getFirstName();
+			String str1 = employee.getFirstName();
+
+			System.out.println(employee.getDob());
+			String empdob = employee.getDob();
+			String[] x = empdob.split("-");
+			System.out.println(x[0]);
+			System.out.println(x[1]);
+			
+			System.out.println(str1+x[0]+x[1]);
+			
+			String str2 = str1.concat(x[0]).concat(x[2]);
+			System.out.println(str2);
+			
+			employee.setEmpId(str2);
 			
 			String encryptedPwd = bcrypt.encode(employee.getPassword());
 			employee.setPassword(encryptedPwd);
@@ -82,7 +96,7 @@ public class AdminDashboardController {
 
 	@GetMapping("/deleteEmployee/{id}")
 	public String deleteEmployee(@PathVariable(value = "id") int id, RedirectAttributes rd) {
-		this.empRepo.deleteById(id);
+		this.empRepo.deleteById((long) id);
 		rd.addFlashAttribute("delete", "employee deleted successfully");
 		return "redirect:/viewEmployees";
 	}
@@ -90,7 +104,7 @@ public class AdminDashboardController {
 	@GetMapping("/updateEmployee/{id}")
 	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
 		// get employee from database
-		model.addAttribute("employee", empRepo.getById(id));
+		model.addAttribute("employee", empRepo.getById((long) id));
 		List<EmployeeDesignation> listDesignation = empDesigRepo.findAll();
 		model.addAttribute("listDesignation", listDesignation);
 		return "employee_form";

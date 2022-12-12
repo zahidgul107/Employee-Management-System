@@ -67,11 +67,8 @@
 					<!--  -->
 					<input type="hidden" th:field="*{id}">
 
-					<div class="mb-3">
-						<label for="exampleInputEmail1" class="form-label">Employee
-							Id</label> <input th:field="*{empId}" type="text" class="form-control"
+					<input th:field="*{empId}" type="hidden" class="form-control"
 							id="exampleInputEmail1" aria-describedby="emailHelp">
-					</div>
 
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Employee
@@ -87,7 +84,13 @@
 							aria-describedby="emailHelp">
 					</div>
 
-
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Date of Birth</label> <input th:field="*{dob}" type="date"
+							class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp">
+					</div>
+					
+					
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Employee
 							Email</label> <input th:field="*{email}" type="email"
