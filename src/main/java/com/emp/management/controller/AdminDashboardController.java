@@ -1,5 +1,6 @@
 package com.emp.management.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +67,10 @@ public class AdminDashboardController {
 		} else {		*/
 			System.out.println(employee.getFirstName());
 			String str1 = employee.getFirstName();
+			char[] ch = str1.toCharArray();
+			for(int i = 0; i <= 3; i++ ) {
+				System.out.println(ch[i]);
+			}
 
 			System.out.println(employee.getDob());
 			String empdob = employee.getDob();
