@@ -61,6 +61,7 @@
 					<th scope="col">Employee Id</th>
 					<th scope="col">Employee First Name</th>
 					<th scope="col">Employee Last Name</th>
+					<th scope="col">Employee dob</th>
 					<th scope="col">Email</th>
 					<th scope="col">Designation</th>
 					<th scope="col">Action</th>
@@ -71,6 +72,7 @@
 					<td th:text="${employee.empId}"></td>
 					<td th:text="${employee.firstName}"></td>
 					<td th:text="${employee.lastName}"></td>
+					<td th:text="${employee.dob}"></td>
 					<td th:text="${employee.email}"></td>
 					<td th:text="${employee.employeeDesignation.designation}"></td>
 					<td><a th:href="@{/updateEmployee/{id}(id=${employee.id})}"><i

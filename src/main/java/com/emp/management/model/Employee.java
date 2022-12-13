@@ -1,5 +1,7 @@
 package com.emp.management.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,16 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private Long empId;
+	private Long id;
+	private String empId;
 	private String firstName;
 	private String lastName;
+	
+	
+	private String dob;
 	
 	@Column(unique=true)
 	private String email;
@@ -28,6 +35,14 @@ public class Employee {
 	private EmployeeDesignation employeeDesignation;
 	
 	
+	
+	
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public String getUserName() {
 		return userName;
 	}
@@ -47,16 +62,17 @@ public class Employee {
 	public void setEmployeeDesignation(EmployeeDesignation employeeDesignation) {
 		this.employeeDesignation = employeeDesignation;
 	}
-	public int getId() {
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getEmpId() {
+	public String getEmpId() {
 		return empId;
 	}
-	public void setEmpId(Long empId) {
+	public void setEmpId(String empId) {
 		this.empId = empId;
 	}
 	public String getFirstName() {
