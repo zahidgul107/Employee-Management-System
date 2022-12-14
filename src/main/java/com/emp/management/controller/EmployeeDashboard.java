@@ -16,7 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
 import com.emp.management.model.EmployeeDesignation;
+import com.emp.management.model.EmployeeLeave;
 import com.emp.management.repository.AttendanceRepository;
+import com.emp.management.repository.EmployeeLeaveRepository;
 import com.emp.management.repository.EmployeeRepository;
 
 import antlr.Token;
@@ -29,6 +31,9 @@ public class EmployeeDashboard {
 	
 	@Autowired
 	private EmployeeRepository employeeRepo;
+	
+	@Autowired
+	private EmployeeLeaveRepository empLeaveRepo;
 	
 		
 	@GetMapping("/employeeLogin")
@@ -87,6 +92,27 @@ public class EmployeeDashboard {
 		return "redirect:/employeeView";
 		
 	}
+	
+	
+	@GetMapping("/showLeaveForm{token}")
+	public String showLeaveForm(@PathVariable(value="token") String token,Model model) {
+		
+		// create model attribute to bind form data
+		EmployeeLeave leave = new EmployeeLeave();
+		model.addAttribute("leave", leave);
+		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
+		model.addAttribute("listEmployees", listEmployees);
+		return "leave_form";
+	}
+	
+	@PostMapping("/approveLeave")
+	public String acceptLeave(@ModelAttribute("leave") EmployeeLeave leave,RedirectAttributes rd) {
+		leave.setStatus("created");
+		empLeaveRepo.save(leave);
+		rd.addFlashAttribute("success","leave submitted successfull");
+		return "redirect:/employeeView";
+		
+	}			
 	public String randomString() {
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

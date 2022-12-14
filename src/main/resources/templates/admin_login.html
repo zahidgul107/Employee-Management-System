@@ -19,6 +19,7 @@
 </head>
 <body>
 
+
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 fixed-top">
 		<div class="container-fluid">
 			<i class="fas fa-users fa-lg text-white mx-3"></i>
@@ -33,7 +34,7 @@
 				<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/adminView}">Home</a></li>
+						aria-current="page" th:href="@{/home}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -49,32 +50,56 @@
 	</nav>
 
 
-
-	<div class="container mt-5 pt-5">
+	<div class="container my-5 py-5">
 
 		<div class="row">
 			<div
 				class="card text-white bg-secondary px-5 py-5 mt-5 col-md-6 offset-md-3"
 				style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-				<h1 class="text-center">Employee Designations</h1>
+				<h1 class="text-center">Sign In</h1>
 
-				<form action="#" th:action="@{/saveEmployeeDesignation}"
-					th:object="${empDesig}" method="POST">
-					
-					<!--  -->
-					<input type="hidden" th:field="*{id}">
+				<div th:if="${fail != null}" th:text="${fail}" id="failMessage"
+					class="alert alert-danger" role="alert"></div>
+
+				<form action="#" th:action="@{/adminLogin}" th:object="${admin}"
+					method="POST">
 
 					<div class="mb-3">
-						<label for="exampleInputEmail1" class="form-label">Employee Designation</label> <input th:field="*{designation}" type="text" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
+						<label for="exampleInputEmail1" class="form-label">Admin
+							UserName</label> <input th:field="*{userName}" type="text"
+							class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp">
 					</div>
 
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Admin
+							Password</label> <input th:field="*{password}" type="password"
+							class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp">
+					</div>
+
+					<button type="submit" class="btn btn-primary mt-5">Submit</button>
 				</form>
 
 			</div>
 		</div>
 	</div>
+
+
+
+
+
+
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('#failMessage').remove();
+		}, 2500);
+	</script>
+
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 	<!-- Optional JavaScript; choose one of the two! -->
 
