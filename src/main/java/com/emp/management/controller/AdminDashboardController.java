@@ -40,7 +40,7 @@ public class AdminDashboardController {
 
 	@Autowired
 	private AdminRepository adminRepo;
-	
+
 	@Autowired
 	private EmployeeLeaveRepository empLeaveRepo;
 
@@ -68,13 +68,13 @@ public class AdminDashboardController {
 		return "redirect:/adminLoginForm";
 
 	}
-	
+
 	@GetMapping("/adminView")
 	public String employeeView(Model model) {
 		Admin admin = new Admin();
 		model.addAttribute("admin", admin);
-		model.addAttribute("count",  empLeaveRepo.findByStatus("created").size());
-		//model.addAttribute("count", empLeaveRepo.count());
+		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
+		// model.addAttribute("count", empLeaveRepo.count());
 		return "admin_view";
 	}
 
@@ -91,44 +91,50 @@ public class AdminDashboardController {
 	}
 
 	@PostMapping("/saveEmployee")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes rd) {
+	public String saveEmployee(@ModelAttribute("employee") Employee employee,RedirectAttributes rd) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
-		/*
-		 * Employee emp = empRepo.checkByUserName(employee.getUserName()); if
-		 * (empRepo.findByEmail(employee.getEmail()) != null) {
-		 * System.out.println("faillllllll"); rd.addFlashAttribute("fail",
-		 * "Email already exists"); return "redirect:/showEmployeeForm"; } else if (emp
-		 * == null) { System.out.println("username exists");
-		 * rd.addFlashAttribute("fail", "username already exists"); return
-		 * "redirect:/showEmployeeForm"; } else {
-		 */
-		System.out.println(employee.getFirstName());
-		String str1 = employee.getFirstName();
-		char[] ch = str1.toCharArray();
-		for (int i = 0; i <= 3; i++) {
-			System.out.println(ch[i]);
+	//	 Employee emp = empRepo.checkByUserName(employee.getUserName());
+
+		if (empRepo.findByEmail(employee.getEmail()) != null
+				&& empRepo.checkByUserName(employee.getUserName()) == null) {
+			System.out.println("faillllllll");
+			rd.addFlashAttribute("fail", "Email already exists");
+			return "redirect:/showEmployeeForm";
+		} /*
+			 * else if (emp == null) { System.out.println("username exists");
+			 * rd.addFlashAttribute("fail", "username already exists"); return
+			 * "redirect:/showEmployeeForm"; }
+			 */
+		else {
+
+/*			System.out.println(employee.getFirstName());
+			String str1 = employee.getFirstName();
+			char[] ch = str1.toCharArray();
+			
+			for (int i = 0; i <= 3; i++) {
+				System.out.println(ch[i]);
+			}
+
+			System.out.println(employee.getDob());
+			String empdob = employee.getDob();
+			String[] x = empdob.split("-");
+			System.out.println(x[0]);
+			System.out.println(x[1]);
+
+			System.out.println(str1 + x[0] + x[1]);
+
+			String str2 = str1.concat(x[0]).concat(x[2]);
+			System.out.println(str2);
+
+			employee.setEmpId(str2);		*/
+
+			String encryptedPwd = bcrypt.encode(employee.getPassword());
+			employee.setPassword(encryptedPwd);
+			empRepo.save(employee);
+			rd.addFlashAttribute("success", "employee registered successfully");
+			return "redirect:/adminView";
 		}
-
-		System.out.println(employee.getDob());
-		String empdob = employee.getDob();
-		String[] x = empdob.split("-");
-		System.out.println(x[0]);
-		System.out.println(x[1]);
-
-		System.out.println(str1 + x[0] + x[1]);
-
-		String str2 = str1.concat(x[0]).concat(x[2]);
-		System.out.println(str2);
-
-		employee.setEmpId(str2);
-
-		String encryptedPwd = bcrypt.encode(employee.getPassword());
-		employee.setPassword(encryptedPwd);
-		empRepo.save(employee);
-		rd.addFlashAttribute("success", "employee registered successfully");
-		return "redirect:/adminView";
-//		}
 	}
 
 	@GetMapping("/viewEmployees")
@@ -210,17 +216,16 @@ public class AdminDashboardController {
 		return "view_attendance";
 
 	}
-	
-	
+
 	@GetMapping("/viewEmployeesLeave")
 	public String viewEmployeesLeave(Model model) {
 //		model.addAttribute("listEmployees", empRepo.findAll());
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
 		model.addAttribute("listLeave", listLeave);
-		model.addAttribute("count",  empLeaveRepo.findByStatus("created").size());
+		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
 		return "view_employees_leave";
 	}
-	
+
 	@GetMapping("/viewLeave/{id}")
 	public String viewLeave(@PathVariable(value = "id") int id, Model model) {
 
@@ -235,13 +240,11 @@ public class AdminDashboardController {
 		return "view_leave";
 
 	}
-	
+
 	@PostMapping("/adminLeaveStatus")
 	public String leaveStatus(@ModelAttribute("leaves") EmployeeLeave leaves) {
 		empLeaveRepo.save(leaves);
 		return "redirect:/viewEmployeesLeave";
 	}
-	
 
-
-}			
+}

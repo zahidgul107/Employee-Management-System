@@ -94,14 +94,14 @@
 								Date</label>
 							<input th:name="fromDate" th:value="${employeeLeave.fromDate}"
 								type="text" class="form-control" aria-describedby="emailHelp"
-								 />
+								readonly />
 						</div>
 
 						<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">To
 								Date</label>
 							<input th:name="toDate" th:value="${employeeLeave.toDate}" type="text"
-								class="form-control" aria-describedby="emailHelp" />
+								class="form-control" aria-describedby="emailHelp" readonly />
 						</div>
 
 
@@ -115,8 +115,8 @@
 							<label class="col-form-label">Leave Status</label> <select th:field="*{status}"
 								class="form-select form-group"
 								aria-label="Default select example">
-								<option th:value="Approve">Approve</option>
-								<option th:value="Reject">Reject</option>
+								<option th:value="Approve">Approved</option>
+								<option th:value="Reject">Rejected</option>
 							</select>
 						</div>
 

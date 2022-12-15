@@ -1,6 +1,7 @@
 package com.emp.management.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,7 +34,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	Employee findByEmail(String email);
 
 
-	public Employee findByUserName(String userName);
+	Employee findByUserName(String userName);
 	
 	
 	  @Query("SELECT u FROM Employee u WHERE u.userName !=:userName") 
