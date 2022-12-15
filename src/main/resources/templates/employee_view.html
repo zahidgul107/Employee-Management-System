@@ -79,8 +79,25 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a href="#" class="btn btn-primary">Request Leave</a>
+					<a th:href="@{/showLeaveForm}" class="btn btn-primary">Request Leave</a>
 				</div>
+			</div>
+			
+			
+			<div class="card text-white bg-dark text-center col-md-4"
+				style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+			<!--	<th:block th:each="employeeLeave :${listEmployees}"> -->
+			<!--<th:block th:each="emp :${leaves}"> -->
+				<div class="card-body">
+					<h5 class="card-title mb-5">
+						<i class="fa-solid fa-user-plus card-title"></i>
+					</h5>
+					
+					<a th:href="@{/showEmployeeLeaveStatus}" class="btn btn-primary">Leave Status</a>
+					
+				</div>
+				 </th:block>
+			<!--	</th:block> -->
 			</div>
 
 		</div>

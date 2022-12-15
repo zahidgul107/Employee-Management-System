@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymleaf.org">
 <head>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -33,7 +33,7 @@
 				<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/adminView}">Home</a></li>
+						aria-current="page" th:href="@{/employeeView}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -50,31 +50,73 @@
 
 
 
-	<div class="container mt-5 pt-5">
+
+	<div class="container my-5 py-5">
 
 		<div class="row">
 			<div
 				class="card text-white bg-secondary px-5 py-5 mt-5 col-md-6 offset-md-3"
 				style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-				<h1 class="text-center">Employee Designations</h1>
+				<h1 class="text-center">Submit Leave</h1>
 
-				<form action="#" th:action="@{/saveEmployeeDesignation}"
-					th:object="${empDesig}" method="POST">
-					
-					<!--  -->
-					<input type="hidden" th:field="*{id}">
+				<form action="#" th:action="@{/approveLeave}"
+					th:object="${leave}" method="POST">
 
 					<div class="mb-3">
-						<label for="exampleInputEmail1" class="form-label">Employee Designation</label> <input th:field="*{designation}" type="text" class="form-control"
+						<label class="col-form-label">Employee Name</label> <select
+							th:field="*{employee}" class="form-select form-group"
+							aria-label="Default select example">
+							<th:block th:each="employee : ${listEmployees}">
+								<option
+									th:text="${employee.firstName} +' '+${employee.lastName}"
+									th:value="${employee.id}" readonly />
+							</th:block>
+						</select>
+					</div>
+
+
+				 	<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Employee Email
+							</label> 
+							<th:block th:each="employee : ${listEmployees}">
+							<option th:field="*{employee}" th:text="${employee.email}" th:value="${employee.id}" type="text" class="form-control"
+							id="exampleInputEmail1" aria-describedby="emailHelp" readonly/>
+							</th:block>
+					</div>
+
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">From Date</label>
+						<input th:field="*{fromDate}" type="time" class="form-control"
 							id="exampleInputEmail1" aria-describedby="emailHelp">
 					</div>
 
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">To
+							Date</label> <input th:field="*{toDate}" type="time" class="form-control"
+							id="exampleInputEmail1" aria-describedby="emailHelp">
+					</div>
+
+
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Reason</label>
+						<textarea th:field="*{reason}" class="form-control"
+							id="exampleInputEmail1" aria-describedby="emailHelp"></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-primary mt-5">Submit</button>
 				</form>
 
 			</div>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
 
 	<!-- Optional JavaScript; choose one of the two! -->
 
