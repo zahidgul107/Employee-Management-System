@@ -71,8 +71,6 @@ public class AdminDashboardController {
 
 	@GetMapping("/adminView")
 	public String employeeView(Model model) {
-		Admin admin = new Admin();
-		model.addAttribute("admin", admin);
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
 		// model.addAttribute("count", empLeaveRepo.count());
 		return "admin_view";
@@ -91,50 +89,58 @@ public class AdminDashboardController {
 	}
 
 	@PostMapping("/saveEmployee")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee,RedirectAttributes rd) {
+	public String saveEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes rd) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
-	//	 Employee emp = empRepo.checkByUserName(employee.getUserName());
+		Employee emp = empRepo.checkByUserName(employee.getUserName());
 
-		if (empRepo.findByEmail(employee.getEmail()) != null
-				&& empRepo.checkByUserName(employee.getUserName()) == null) {
+		if (empRepo.findByEmail(employee.getEmail()) != null) {
 			System.out.println("faillllllll");
 			rd.addFlashAttribute("fail", "Email already exists");
 			return "redirect:/showEmployeeForm";
-		} /*
-			 * else if (emp == null) { System.out.println("username exists");
-			 * rd.addFlashAttribute("fail", "username already exists"); return
-			 * "redirect:/showEmployeeForm"; }
-			 */
-		else {
-
-/*			System.out.println(employee.getFirstName());
+		} else if (empRepo.checkByUserName(employee.getUserName()) != null) {
+			System.out.println("username exists");
+			rd.addFlashAttribute("fail", "username already exists");
+			return "redirect:/showEmployeeForm";
+		} else {
 			String str1 = employee.getFirstName();
-			char[] ch = str1.toCharArray();
-			
-			for (int i = 0; i <= 3; i++) {
-				System.out.println(ch[i]);
-			}
-
-			System.out.println(employee.getDob());
+			String str2 = str1.substring(0,3);
 			String empdob = employee.getDob();
 			String[] x = empdob.split("-");
-			System.out.println(x[0]);
-			System.out.println(x[1]);
-
-			System.out.println(str1 + x[0] + x[1]);
-
-			String str2 = str1.concat(x[0]).concat(x[2]);
-			System.out.println(str2);
-
-			employee.setEmpId(str2);		*/
-
+			String str3 = str2.concat(x[0]).concat(x[2]);
+			employee.setEmpId(str3);		
 			String encryptedPwd = bcrypt.encode(employee.getPassword());
 			employee.setPassword(encryptedPwd);
 			empRepo.save(employee);
 			rd.addFlashAttribute("success", "employee registered successfully");
-			return "redirect:/adminView";
 		}
+		return "redirect:/adminView";
+	}
+
+	@GetMapping("/showEmployeeUpdateForm/{id}")
+	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
+		// get employee from database
+		model.addAttribute("emp", empRepo.getById((long) id));
+		List<EmployeeDesignation> listDesignation = empDesigRepo.findAll();
+		model.addAttribute("listDesignation", listDesignation);
+		return "update_employee_form";
+	}
+
+	@PostMapping("/saveUpdatedEmployee")
+	public String saveUpdatedEmployee(@ModelAttribute("emp") Employee emp, RedirectAttributes rd) {
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
+		if (empRepo.findByEmailAndId(emp.getEmail(), emp.getId()) != null) {
+			System.out.println("faillllllll");
+			rd.addFlashAttribute("delete", "Email already exists");
+			return "redirect:/showEmployeeUpdateForm/" + emp.getId();
+		} else {
+			String encryptedPwd = bcrypt.encode(emp.getPassword());
+			emp.setPassword(encryptedPwd);
+			empRepo.save(emp);
+			rd.addFlashAttribute("success", "employee updated successfully");
+		}
+		return "redirect:/adminView";
 	}
 
 	@GetMapping("/viewEmployees")
@@ -150,15 +156,6 @@ public class AdminDashboardController {
 		return "redirect:/viewEmployees";
 	}
 
-	@GetMapping("/updateEmployee/{id}")
-	public String updateEmployee(@PathVariable(value = "id") int id, Model model) {
-		// get employee from database
-		model.addAttribute("employee", empRepo.getById((long) id));
-		List<EmployeeDesignation> listDesignation = empDesigRepo.findAll();
-		model.addAttribute("listDesignation", listDesignation);
-		return "employee_form";
-	}
-
 	// employee designation
 	@GetMapping("/showEmployeeDesignationForm")
 	public String showEmployeeDesignationForm(Model model) {
@@ -172,10 +169,15 @@ public class AdminDashboardController {
 	// saving to database
 	@PostMapping("/saveEmployeeDesignation")
 	public String saveEmployee(@ModelAttribute("empDesig") EmployeeDesignation empDesig, RedirectAttributes rd) {
+		if (empDesigRepo.findByDesignation(empDesig.getDesignation()) != null) {
+			System.out.println("failllllllllllllllll");
+			rd.addFlashAttribute("fail", "Designation already exists");
+			return "redirect:/showEmployeeDesignationForm";
+		} else {
 		empDesigRepo.save(empDesig);
 		rd.addFlashAttribute("success", "Successfully added designation");
 		return "redirect:/adminView";
-
+		}
 	}
 
 	// getting designation
@@ -186,7 +188,7 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/deleteDesignation/{id}")
-	public String deleteDesignation(@PathVariable(value = "id") int id, RedirectAttributes rd) {
+	public String deleteDesignation(@PathVariable(value = "id") long id, RedirectAttributes rd) {
 		this.empDesigRepo.deleteById(id);
 		rd.addFlashAttribute("delete", "designation deleted successfully");
 		return "redirect:/viewDesignations";
@@ -199,7 +201,7 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/viewAttendance/{id}")
-	public String viewAttendance(@PathVariable(value = "id") int id, Model model) {
+	public String viewAttendance(@PathVariable(value = "id") long id, Model model) {
 
 		List<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id);
 		model.addAttribute("attendanceList", attendanceList);

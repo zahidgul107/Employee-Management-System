@@ -16,10 +16,10 @@ public class Attendance {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date date;
+	private String date;
 	
 	private String timeIn;
 	private String timeOut;
@@ -37,16 +37,17 @@ public class Attendance {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	public int getId() {
+	
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public String getTimeIn() {
