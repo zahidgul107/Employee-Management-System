@@ -61,7 +61,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="employeeAttendance : ${attendanceList}">
-					<td th:text="${#dates.format(employeeAttendance.date, 'dd-MM-yyyy')}"></td>
+					<td th:text="${employeeAttendance.date}"></td>
 					<td th:text="${employeeAttendance.timeIn}"></td>
 					<td th:text="${employeeAttendance.timeOut}"></td>
 					<td th:text="${employeeAttendance.taskAssigned}"></td>

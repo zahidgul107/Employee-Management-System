@@ -1,13 +1,11 @@
 package com.emp.management.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.emp.management.model.Employee;
 
 @Repository
@@ -36,9 +34,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
 	Employee findByUserName(String userName);
 	
+	@Query("select u from Employee u where u.email =:email  and u.id !=:id")
+	Employee findByEmailAndId(@Param("email") String email, @Param("id") Long id);
 	
-	  @Query("SELECT u FROM Employee u WHERE u.userName !=:userName") 
+	
+	  @Query("SELECT u FROM Employee u WHERE u.userName =:userName") 
 	  public Employee checkByUserName(@Param ("userName") String userName);
+
+
+	
+
+
+
 
 
 	

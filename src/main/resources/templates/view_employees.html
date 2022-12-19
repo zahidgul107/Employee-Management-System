@@ -14,14 +14,15 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+	
 
 <title>Employee Management System</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 fixed-top">
 		<div class="container-fluid">
-			<i class="fas fa-users fa-lg text-white mx-3"></i>
-			<a class="navbar-brand" href="#">Employee Management System</a>
+			<i class="fas fa-users fa-lg text-white mx-3"></i> <a
+				class="navbar-brand" href="#">Employee Management System</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarNav"
 				aria-controls="navbarNav" aria-expanded="false"
@@ -30,7 +31,8 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-house-chimney text-white"></i></a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" th:href="@{/adminView}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
@@ -51,9 +53,9 @@
 	<div class="container">
 
 		<h1 class="text-center mt-5 py-5">View Employees</h1>
-		
+
 		<div th:if="${delete != null}" th:text="${delete}" id="deleteMessage"
-					class="alert alert-danger" role="alert"></div>
+			class="alert alert-danger mssg" role="alert"></div>
 
 		<table class="table table-striped table-hover">
 			<thead>
@@ -75,9 +77,11 @@
 					<td th:text="${employee.dob}"></td>
 					<td th:text="${employee.email}"></td>
 					<td th:text="${employee.employeeDesignation.designation}"></td>
-					<td><a th:href="@{/updateEmployee/{id}(id=${employee.id})}"><i
+					<td><a
+						th:href="@{/showEmployeeUpdateForm/{id}(id=${employee.id})}"><i
 							class="fa-solid fa-pen-nib text-warning pe-5"
-							style="font-size: 30px;"></i></a> <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}"> <i
+							style="font-size: 30px;"></i></a> <a
+						th:href="@{/deleteEmployee/{id}(id=${employee.id})}"> <i
 							class="fa-solid fa-trash text-danger" style="font-size: 30px;"></i>
 					</a></td>
 				</tr>
@@ -87,6 +91,17 @@
 	</div>
 
 
+
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('.mssg').remove();
+		}, 2500);
+	</script>
+
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 	<!-- Optional JavaScript; choose one of the two! -->
 

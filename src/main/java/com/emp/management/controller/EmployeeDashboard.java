@@ -1,6 +1,10 @@
 package com.emp.management.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -70,16 +74,18 @@ public class EmployeeDashboard {
 
 	@GetMapping("/employeeView")
 	public String employeeView(Model model) {
-		Employee employee = new Employee();
-		model.addAttribute("employee", employee);
+		model.addAttribute("emp", employeeRepo.findByTokenIsNotNull());
 		return "employee_view";
 	}
 
 	@GetMapping("/showAttendanceForm")
 	public String showEmployeeForm(Model model) {
-
+		String timeIn = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+		String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		// create model attribute to bind form data
 		Attendance attendance = new Attendance();
+		attendance.setDate(date);
+		attendance.setTimeIn(timeIn);
 		model.addAttribute("attendance", attendance);
 		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
 		model.addAttribute("listEmployees", listEmployees);
@@ -88,9 +94,49 @@ public class EmployeeDashboard {
 
 	@PostMapping("/saveAttendance")
 	public String saveAttendance(@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
-		attendanceRepo.save(attendance);
-		rd.addFlashAttribute("success", "Attendance submitted successfull");
-		return "redirect:/employeeView";
+
+		if (attendanceRepo.findByDate(attendance.getDate()) != null) {
+			rd.addFlashAttribute("fail", "Attendance already done");
+			return "redirect:/showAttendanceForm";
+		} else {
+			attendanceRepo.save(attendance);
+			rd.addFlashAttribute("success", "Attendance submitted successfull");
+			return "redirect:/employeeView";
+		}
+	}
+
+	@GetMapping("/showUpdateAttendanceForm/{id}")
+	public String showUpdateAttendanceForm(@PathVariable(value = "id") long id, Model model) {
+		String timeOut = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+		List<Attendance> timeInAttendance = attendanceRepo.findByEmployeeId(id);
+		model.addAttribute("timeInAttendance", timeInAttendance);
+		for (Attendance attendance : timeInAttendance) {
+			System.err.println(attendance.getTimeIn());
+		}
+		Attendance attendance = new Attendance();
+		attendance.setTimeOut(timeOut);
+		model.addAttribute("attendance", attendance);
+		List<Attendance> list = attendanceRepo.findAll();
+		for (Attendance attend : list) {
+			System.err.println(attend.getTimeOut());
+		}
+		model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
+
+		return "update_attendance_form";
+	}
+
+	@PostMapping("/updateAttendance")
+	public String saveUpdatedAttendance(@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
+		Attendance att = attendanceRepo.findById(attendance.getId()).get();
+		if (att.getTimeOut() != null) {
+			rd.addFlashAttribute("success", "You have already taken attendance");
+			return "redirect:/employeeView";
+		} else {
+			System.err.println("hereeeeeeeeeeeeeeeeeeeeee");
+			attendanceRepo.save(attendance);
+			rd.addFlashAttribute("success", "Attendance updated successfully");
+			return "redirect:/employeeView";
+		}
 
 	}
 
@@ -123,7 +169,7 @@ public class EmployeeDashboard {
 	public String showEmployeeLeavedStatus(@PathVariable(value = "status") String status, Model model) {
 
 		ArrayList<Employee> list = new ArrayList<>();
-		
+
 		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
 		model.addAttribute("listEmployees", listEmployees);
 		for (Employee employee : listEmployees) {

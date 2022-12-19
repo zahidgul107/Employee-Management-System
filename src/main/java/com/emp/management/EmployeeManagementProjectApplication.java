@@ -9,7 +9,7 @@ public class EmployeeManagementProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeManagementProjectApplication.class, args);
-		System.out.println("Karsa Brower open");
+		System.err.println("Karsa Brower open");
 		
 		
 		}
