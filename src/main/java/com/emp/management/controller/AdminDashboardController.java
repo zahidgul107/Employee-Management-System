@@ -146,56 +146,10 @@ public class AdminDashboardController {
 		return "redirect:/adminView";
 	}
 	
-/*	@GetMapping("/search")
-	public String search(Model model, HttpSession session) {
-
-		if (session.getAttribute("UserSearch") != null) {
-			session.setAttribute("UserSearch", null);
-		}
-
-		int page = 0;
-		Pageable pageable = PageRequest.of(page, 10);
-		Page<AppUser> list = userRepository.findAll(pageable);
-		model.addAttribute("list", list.getContent());
-		session.setAttribute("currentPage", page);
-		model.addAttribute("totalPages", list.getTotalPages());
-		model.addAttribute("currentPage", page);
-
-		return "user-list";
-	}
-	
-	@GetMapping("/search/{page}")
-	public String listUser(@PathVariable("page") int page, Model model, HttpSession session) {
-		Pageable pageable = PageRequest.of(page, 10);
-		if (session.getAttribute("UserSearch") != null) {
-			String search = (String) session.getAttribute("UserSearch");
-			
-			  Page<AppUser> list = userRepository
-					  .findByNameContainingIgnoreCaseOrPhoneNumberContainingIgnoreCaseOrAddressContainingIgnoreCase(
-					   search, search, search, pageable);
-			 
-			model.addAttribute("list", list.getContent());
-			session.setAttribute("currentPage", page);
-			model.addAttribute("totalPages", list.getTotalPages());
-			session.setAttribute("UserSearch", search);
-			model.addAttribute("UserSearch", search);
-		} else {
-			Page<AppUser> list = userRepository.findAll(pageable);
-			model.addAttribute("list", list.getContent());
-			session.setAttribute("currentPage", page);
-			model.addAttribute("totalPages", list.getTotalPages());
-		}
-		model.addAttribute("currentPage", page);
-		return "user-list";
-
-	}		*/
-	
 	@GetMapping("/viewEmployees/{page}")
 	public String viewPaginatedEmployees(@PathVariable(value = "page")int page,Model model) {
-	//	model.addAttribute("listEmployees", empRepo.findAll());
 		Pageable pageable = PageRequest.of(page-1, 10);
 		Page<Employee> list = empRepo.findAll(pageable);
-		System.err.println(list.getContent()+"contenttttttttttttttttttttttttttttttttt");
 		model.addAttribute("listEmployees", list.getContent());
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", list.getTotalPages());
@@ -209,15 +163,10 @@ public class AdminDashboardController {
 		int page = 1;
 		Pageable pageable = PageRequest.of(page-1, 10);
 		Page<Employee> list = empRepo.findAll(pageable);
-		for (Employee employee : list) {
-			System.err.println(employee.getEmail()+"contentttttttttttttttttttttttttttttttttv");
-		}
-		
 		model.addAttribute("listEmployees", list.getContent());
-		System.err.println(list.getTotalPages()+"contentttttttttttttttttttttttttttttttttv");
 		model.addAttribute("totalPages", list.getTotalPages());
+		model.addAttribute("totalItems", list.getTotalElements());
 		model.addAttribute("currentPage", page);
-//		model.addAttribute("listEmployees", empRepo.findAll());
 		return "view_employees";
 	}
 

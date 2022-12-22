@@ -108,7 +108,7 @@ public class EmployeeDashboard {
 	@GetMapping("/showUpdateAttendanceForm/{id}")
 	public String showUpdateAttendanceForm(@PathVariable(value = "id") long id, Model model) {
 		String timeOut = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
-		List<Attendance> timeInAttendance = attendanceRepo.findByEmployeeId(id);
+		List<Attendance> timeInAttendance = attendanceRepo.findByEmployeeIdAndTimeOutIsNull(id);
 		model.addAttribute("timeInAttendance", timeInAttendance);
 		for (Attendance attendance : timeInAttendance) {
 			System.err.println(attendance.getTimeIn());
@@ -116,10 +116,6 @@ public class EmployeeDashboard {
 		Attendance attendance = new Attendance();
 		attendance.setTimeOut(timeOut);
 		model.addAttribute("attendance", attendance);
-		List<Attendance> list = attendanceRepo.findAll();
-		for (Attendance attend : list) {
-			System.err.println(attend.getTimeOut());
-		}
 		model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
 
 		return "update_attendance_form";

@@ -87,10 +87,10 @@
 				</tr>
 			</tbody>
 		</table>
-
-		 	<div th:if="${totalPages > 1}">
+		
+		<div th:if="${totalPages > 1}">
 			<div class="row col-sm-10">
-				<div class="col-sm-2">Total Rows: [[${totalItems}]]</div>
+			<div class="col-sm-2">Total Employees: [[${totalItems}]]</div>
 				<div class="col-sm-1">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
 						th:if="${currentPage != i}" th:href="@{'/viewEmployees/' + ${i}}">[[${i}]]</a>
@@ -110,11 +110,11 @@
 						th:unless="${currentPage < totalPages}">Last</span>
 				</div>
 			</div>
-		</div>   
+		</div>
 
 
 
-	<!--	<div class="row">
+		<!--	<div class="row">
 			<div class="col-md-4  mr-b-40"></div>
 			<div class="col-md-4  mr-b-40">
 				<nav aria-label="Page navigation">

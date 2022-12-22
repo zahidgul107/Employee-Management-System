@@ -36,6 +36,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 	@Query("SELECT u FROM Attendance u WHERE u.timeOut =:timeOut")
 	 List<Attendance> checkByTimeOut(@Param("timeOut") String timeOut);
 
+
+	List<Attendance> findByEmployeeIdAndTimeOutIsNull(long id);
+
 //	@Query("SELECT e FROM Employee e WHERE e.timeOut IS NULL")
 //	List<Attendance> findByTimeOutIsNull(String timeOut);
 
