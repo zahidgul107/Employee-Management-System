@@ -14,8 +14,8 @@ public class EmployeeLeave {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String fromDate;
-	private String toDate;
+	private Date fromDate;
+	private Date toDate;
 	private String reason;
 	private String status;
 	
@@ -38,21 +38,19 @@ public class EmployeeLeave {
 		this.id = id;
 	}
 
-
-
-	public String getFromDate() {
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 
-	public String getToDate() {
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 
