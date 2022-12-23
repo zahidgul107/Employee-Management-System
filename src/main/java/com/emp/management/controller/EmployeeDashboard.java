@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -20,13 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emp.management.model.Attendance;
 import com.emp.management.model.Employee;
-import com.emp.management.model.EmployeeDesignation;
 import com.emp.management.model.EmployeeLeave;
 import com.emp.management.repository.AttendanceRepository;
 import com.emp.management.repository.EmployeeLeaveRepository;
 import com.emp.management.repository.EmployeeRepository;
-
-import antlr.Token;
 
 @Controller
 public class EmployeeDashboard {
