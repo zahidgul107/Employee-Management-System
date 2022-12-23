@@ -3,6 +3,7 @@ package com.emp.management.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,7 +28,7 @@ public interface EmployeeLeaveRepository extends JpaRepository<EmployeeLeave, Lo
 	
 	
 	  //@Query("Select a from EmployeeLeave a where a.status=:status")
-	  List<EmployeeLeave> findByEmployeeAndStatus(Employee employee, String status, Pageable pageable);
+	  Page<EmployeeLeave> findByEmployeeAndStatus(Employee employee, String status, Pageable pageable);
 
 	EmployeeLeave findByFromDate(Date fromDate);
 

@@ -75,7 +75,6 @@ public class AdminDashboardController {
 	@GetMapping("/adminView")
 	public String employeeView(Model model) {
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
-		// model.addAttribute("count", empLeaveRepo.count());
 		return "admin_view";
 	}
 
@@ -253,7 +252,12 @@ public class AdminDashboardController {
 	@GetMapping("/viewEmployeesLeave")
 	public String viewEmployeesLeave(Model model) {
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
-		model.addAttribute("listLeave", listLeave);
+		for (EmployeeLeave Leave : listLeave) {
+			System.err.println(Leave.getEmployee().getFirstName());
+			model.addAttribute("Leave", Leave);
+			
+		}
+		
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
 		return "view_employees_leave";
 	}
@@ -262,9 +266,15 @@ public class AdminDashboardController {
 	public String viewLeave(@PathVariable(value = "id") int id, Model model) {
 
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
+		for (EmployeeLeave employeeLeave : listLeave) {
+		//	System.err.println(employeeLeave.getEmployee().getId());
+		//	System.err.println(employeeLeave.getReason());
+			System.err.println(employeeLeave.getFromDate()+ " : "+employeeLeave.getToDate());
+			model.addAttribute("employeeLeave", employeeLeave);
+		}
 		model.addAttribute("listLeave", listLeave);
 		for (EmployeeLeave employeeLeave : listLeave) {
-			System.err.println(employeeLeave.getReason() + "<<<<<<<<<<<<");
+		//	System.err.println(employeeLeave.getReason() + "<<<<<<<<<<<<");
 		}
 
 		EmployeeLeave leaves = new EmployeeLeave();

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -173,28 +174,22 @@ public class EmployeeDashboard {
 		return "employee_leave_view";
 	}
 
-	@GetMapping("/showLeaveStatus/{status}")
-	public String showEmployeeLeavedStatus(@PathVariable(value = "status") String status, Model model) {
+	@GetMapping("/showLeaveStatus/{status}/{page}")
+	public String showEmployeeLeavedStatus(@PathVariable(value = "status") String status,@PathVariable(value = "page")int page, Model model) {
 
 		ArrayList<Employee> list = new ArrayList<>();
-
 		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
-//		model.addAttribute("listEmployees", listEmployees);
 		for (Employee employee : listEmployees) {
 		//	System.out.println(employee.getId());
 			list.add(employee);
-		}
-
-	//	List<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status);
-		int page = 1;
+		}	
 		Pageable pageable = PageRequest.of(page-1, 5);
-		List<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status, pageable);
-		model.addAttribute("listLeave", listLeave);
-		for (EmployeeLeave employeeLeave : listLeave) {
-			System.out.println(employeeLeave.getStatus() + " " + employeeLeave.getEmployee().getId()
-					+ "heeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllllllloooooooooo");
-		}
-
+		Page<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status, pageable);
+		model.addAttribute("listLeave", listLeave.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", listLeave.getTotalPages());
+		model.addAttribute("totalItems", listLeave.getTotalElements());
+		model.addAttribute("status", status);
 		return "employee_leave_status";
 	}
 

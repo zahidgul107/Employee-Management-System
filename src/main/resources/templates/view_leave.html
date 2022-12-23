@@ -63,7 +63,7 @@
 				<form action="#" th:action="@{/adminLeaveStatus}" th:object="${leaves}" method="POST">
 				
 
-					<th:block th:each="employeeLeave : ${listLeave}">
+					<!-- <th:block th:each="employeeLeave : ${listLeave}"> -->
 					
 						<input type="hidden" th:name="id" th:value="${employeeLeave.id}">
 
@@ -121,7 +121,7 @@
 						</div>
 
 
-					</th:block>
+					<!-- </th:block> -->
 
 					<button type="submit" class="btn btn-primary mt-5">Submit</button>
 				</form>

@@ -81,7 +81,6 @@
 						<div class="col-sm-2">Total Employees: [[${totalItems}]]</div>
 						<div class="col-sm-1">
 							<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<!--  	<th:block th:each="employeeAttendance : ${attendanceList}">-->
 						 <a
 								th:if="${currentPage != i}"
 								th:href="@{'/viewAttendance/{id}/' + ${i}(id=*{empId})}">[[${i}]]</a> <span
@@ -99,8 +98,7 @@
 								th:href="@{'/viewAttendance/{id}/' + ${totalPages}(id=*{empId})}">Last</a> <span
 								th:unless="${currentPage < totalPages}">Last</span>
 						</div>
-					</div>
-						
+					</div>			
 				</div>
 	</div>
 
