@@ -221,28 +221,37 @@ public class AdminDashboardController {
 		return "view_employees_attendance";
 	}
 
-	@GetMapping("/viewAttendance/{id}")
+/*	@GetMapping("/viewAttendance/{id}")
 	public String viewAttendance(@PathVariable(value = "id") long id, Model model) {
-
-		List<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id);
-		model.addAttribute("attendanceList", attendanceList);
-		for (Attendance employeeAttendance : attendanceList) {
-			System.err.println(employeeAttendance.getStatus() + "<<<<<<<<<<<<");
-		}
-
-		/*
-		 * List<Attendance> attendanceList = attendanceRepo.findAll(); for (Attendance
-		 * attendance : attendanceList) {
-		 * System.out.println(attendance.getTaskAssigned()); }
-		 * model.addAttribute("attendanceList", attendanceList);
-		 */
+		
+		int page = 1;
+		Pageable pageable = PageRequest.of(page-1, 5);
+		Page<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id,pageable);
+		model.addAttribute("attendanceList", attendanceList.getContent());
+		model.addAttribute("currentPages", page);
+		model.addAttribute("totalPages", attendanceList.getTotalPages());
+		model.addAttribute("totalItems", attendanceList.getTotalElements());
 		return "view_attendance";
-
+	}		*/
+	
+	@GetMapping("/viewAttendance/{id}/{page}")
+	public String viewPaginatedAttendance(@PathVariable(value = "id") long id,@PathVariable(value = "page")int page,Model model) {
+		
+		Pageable pageable = PageRequest.of(page-1, 5);
+		Page<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id, pageable);
+		List<Attendance> list = attendanceList.getContent();
+		for (Attendance attendance : list) {
+			model.addAttribute("empId", attendance.getEmployee().getId());
+		}
+		model.addAttribute("attendanceList", list);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", attendanceList.getTotalPages());
+		model.addAttribute("totalItems", attendanceList.getTotalElements());
+		return "view_attendance";
 	}
 
 	@GetMapping("/viewEmployeesLeave")
 	public String viewEmployeesLeave(Model model) {
-//		model.addAttribute("listEmployees", empRepo.findAll());
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
 		model.addAttribute("listLeave", listLeave);
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());

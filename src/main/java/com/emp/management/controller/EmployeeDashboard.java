@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,11 +151,21 @@ public class EmployeeDashboard {
 
 	@PostMapping("/approveLeave")
 	public String acceptLeave(@ModelAttribute("leave") EmployeeLeave leave, RedirectAttributes rd) {
-		leave.setStatus("created");
-		empLeaveRepo.save(leave);
-		rd.addFlashAttribute("success", "leave submitted successfull");
-		return "redirect:/employeeView";
-
+		System.err.println(leave.getFromDate());
+		if (empLeaveRepo.findByFromDate(leave.getFromDate()) != null) {
+			rd.addFlashAttribute("fail", "Your have already submitted leave from this date");
+			return "redirect:/showLeaveForm";
+		} else if (empLeaveRepo.findByToDate(leave.getToDate()) != null) {
+			rd.addFlashAttribute("fail", "you have already submitted leave to this date");
+			return "redirect:/showLeaveForm";
+		}
+		
+		else {
+			leave.setStatus("created");
+			empLeaveRepo.save(leave);
+			rd.addFlashAttribute("success", "leave submitted successfull");
+			return "redirect:/employeeView";
+		}
 	}
 
 	@GetMapping("/showEmployeeLeaveStatus")
@@ -167,15 +179,16 @@ public class EmployeeDashboard {
 		ArrayList<Employee> list = new ArrayList<>();
 
 		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
-		model.addAttribute("listEmployees", listEmployees);
+//		model.addAttribute("listEmployees", listEmployees);
 		for (Employee employee : listEmployees) {
-			System.out.println(employee.getId());
+		//	System.out.println(employee.getId());
 			list.add(employee);
 		}
-		// Employee employee = employeeRepo.findById(id).get();
 
-		List<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status);
-
+	//	List<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status);
+		int page = 1;
+		Pageable pageable = PageRequest.of(page-1, 5);
+		List<EmployeeLeave> listLeave = empLeaveRepo.findByEmployeeAndStatus(list.get(0), status, pageable);
 		model.addAttribute("listLeave", listLeave);
 		for (EmployeeLeave employeeLeave : listLeave) {
 			System.out.println(employeeLeave.getStatus() + " " + employeeLeave.getEmployee().getId()

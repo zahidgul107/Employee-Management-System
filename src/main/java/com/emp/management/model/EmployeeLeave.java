@@ -1,8 +1,6 @@
 package com.emp.management.model;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,16 +10,21 @@ import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class EmployeeLeave {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fromDate;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date toDate;
+	
 	private String reason;
 	private String status;
 	
@@ -43,6 +46,8 @@ public class EmployeeLeave {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+
 
 	public Date getFromDate() {
 		return fromDate;

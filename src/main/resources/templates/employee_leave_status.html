@@ -70,8 +70,8 @@
 				<tr th:each="leave : ${listLeave}">
 					<td th:text="${leave.employee.firstName+' '+ leave.employee.lastName}"></td>
 					<td th:text="${leave.employee.email}"></td>
-					<td th:text="${leave.fromDate}"></td>
-					<td th:text="${leave.toDate}"></td>
+					<td th:text="${#dates.format(leave.fromDate, 'dd-MM-yyyy')}"></td>
+					<td th:text="${#dates.format(leave.toDate, 'dd-MM-yyyy')}"></td>
 					<td th:text="${leave.reason}"></td>
 					<td th:text="${leave.status}"></td>
 				</tr>

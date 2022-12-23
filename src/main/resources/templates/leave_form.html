@@ -61,6 +61,9 @@
 
 				<form action="#" th:action="@{/approveLeave}"
 					th:object="${leave}" method="POST">
+					
+					<div th:if="${fail != null}" th:text="${fail}" id="failMessage"
+					class="alert alert-danger" role="alert"></div>
 
 					<div class="mb-3">
 						<label class="col-form-label">Employee Name</label> <select
@@ -86,21 +89,21 @@
 
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">From Date</label>
-						<input th:field="*{fromDate}" type="Date" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
+						<input th:field="*{fromDate}" type="date" class="form-control"
+							id="exampleInputEmail1" aria-describedby="emailHelp" required>
 					</div>
 
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">To
-							Date</label> <input th:field="*{toDate}" type="Date" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
+							Date</label> <input th:field="*{toDate}" type="date" class="form-control"
+							id="exampleInputEmail1" aria-describedby="emailHelp" required>
 					</div>
 
 
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Reason</label>
 						<textarea th:field="*{reason}" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp"></textarea>
+							id="exampleInputEmail1" aria-describedby="emailHelp" required></textarea>
 					</div>
 
 					<button type="submit" class="btn btn-primary mt-5">Submit</button>
@@ -109,9 +112,17 @@
 			</div>
 		</div>
 	</div>
+					
+	<script type="text/javascript">
+		setTimeout(function() {
+			$('#failMessage').remove();
+		}, 2500);
+	</script>
 
-
-
+	<!--Jquery CDN  -->
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 
 
 
