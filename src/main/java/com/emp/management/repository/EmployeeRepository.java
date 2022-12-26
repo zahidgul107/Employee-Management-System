@@ -42,6 +42,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	  public Employee checkByUserName(@Param ("userName") String userName);
 
 
+	List<Employee> findByToken(String token);
+
+
 	
 
 

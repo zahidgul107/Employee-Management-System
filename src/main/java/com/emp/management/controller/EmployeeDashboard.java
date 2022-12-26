@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emp.management.model.Attendance;
@@ -52,22 +53,18 @@ public class EmployeeDashboard {
 	}
 
 	@PostMapping("/login")
-	public String signIn(@ModelAttribute("employee") Employee employee, RedirectAttributes rd) {
+	public String signIn(@ModelAttribute("employee") Employee employee, RedirectAttributes rd,Model model) {
 		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		List<Employee> employeeList = employeeRepo.findAll();
-
-		// create a string of all characters
-
 		for (Employee emp : employeeList) {
-			System.out.println(emp.getUserName());
-			System.out.println(emp.getPassword());
 			if (bcrypt.matches(employee.getPassword(), emp.getPassword())
 					&& emp.getUserName().equals(employee.getUserName())) {
 				emp.setToken(randomString());
+				System.err.println(emp.getToken());
+				String token = emp.getToken();
+				rd.addAttribute("token", token);
 				employeeRepo.save(emp);
 				rd.addFlashAttribute("success", "Login In successfully");
-				// if (emp.getUserName().equals(employee.getUserName()) &&
-				// emp.getPassword().equals(employee.getPassword())) {
 				return "redirect:/employeeView";
 			}
 		}
@@ -76,13 +73,23 @@ public class EmployeeDashboard {
 	}
 
 	@GetMapping("/employeeView")
-	public String employeeView(Model model) {
-		model.addAttribute("emp", employeeRepo.findByTokenIsNotNull());
+	public String employeeView(@ModelAttribute("token")String token,Model model) {
+	//	System.err.println(token);
+	//	model.addAttribute("emp", employeeRepo.findByTokenIsNotNull());
+		List<Employee> empList = employeeRepo.findByToken(token);
+	//	System.err.println(emp.getId());
+		for (Employee emp : empList) {
+	//		System.err.println(emp.getId());
+			model.addAttribute("id", emp.getId());
+		}
+		model.addAttribute("token", token);
 		return "employee_view";
 	}
 
 	@GetMapping("/showAttendanceForm")
-	public String showEmployeeForm(Model model) {
+	public String showEmployeeForm(@RequestParam String token,Model model) {
+	//	System.err.println(token);
+		model.addAttribute("token", token);
 		String timeIn = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 		String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		// create model attribute to bind form data
@@ -90,26 +97,30 @@ public class EmployeeDashboard {
 		attendance.setDate(date);
 		attendance.setTimeIn(timeIn);
 		model.addAttribute("attendance", attendance);
-		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
+		List<Employee> listEmployees = employeeRepo.findByToken(token);
 		model.addAttribute("listEmployees", listEmployees);
 		return "attendance_form";
 	}
 
 	@PostMapping("/saveAttendance")
-	public String saveAttendance(@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
-
+	public String saveAttendance(@RequestParam String token,@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
+	//	System.err.println(token);
 		if (attendanceRepo.findByDate(attendance.getDate()) != null) {
+			rd.addAttribute("token", token);
 			rd.addFlashAttribute("fail", "Attendance already done");
 			return "redirect:/showAttendanceForm";
 		} else {
 			attendanceRepo.save(attendance);
 			rd.addFlashAttribute("success", "Attendance submitted successfull");
+			rd.addAttribute("token", token);
 			return "redirect:/employeeView";
 		}
 	}
 
 	@GetMapping("/showUpdateAttendanceForm/{id}")
-	public String showUpdateAttendanceForm(@PathVariable(value = "id") long id, Model model) {
+	public String showUpdateAttendanceForm(@RequestParam String token,@PathVariable(value = "id") long id, Model model) {
+		System.err.println(token);
+		model.addAttribute("token", token);
 		String timeOut = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 		List<Attendance> timeInAttendance = attendanceRepo.findByEmployeeIdAndTimeOutIsNull(id);
 		model.addAttribute("timeInAttendance", timeInAttendance);
@@ -119,7 +130,7 @@ public class EmployeeDashboard {
 		Attendance attendance = new Attendance();
 		attendance.setTimeOut(timeOut);
 		model.addAttribute("attendance", attendance);
-		model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
+	//	model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
 
 		return "update_attendance_form";
 	}
@@ -219,7 +230,7 @@ public class EmployeeDashboard {
 		}
 
 		String randomString = sb.toString();
-		System.out.println(randomString);
+	//	System.out.println(randomString);
 
 		return randomString;
 

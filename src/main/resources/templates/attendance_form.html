@@ -64,6 +64,8 @@
 					
 					<div th:if="${fail != null}" th:text="${fail}" id="failMessage"
 					class="alert alert-danger mssg" role="alert"></div>
+					
+					<input  type="hidden" name="token" th:value="${token}">
 
 					<div class="mb-3">
 						<label class="col-form-label">Employee Name</label> <select

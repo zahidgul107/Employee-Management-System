@@ -69,24 +69,24 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a th:href="@{/showAttendanceForm}" class="btn btn-primary">Fill
-						Attendance</a>
+					<a th:href="@{/showAttendanceForm(token=*{token})}"
+						class="btn btn-primary">Fill Attendance</a>
 				</div>
-				
-			</div>
-				<div class="card text-white bg-dark text-center col-md-4"
-					style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-					<div class="card-body">
-						<h5 class="card-title mb-5">
-							<i class="fa-solid fa-user-plus card-title"></i>
-						</h5>
 
-			 <th:block th:each="e :${emp}">
-						<a th:href="@{/showUpdateAttendanceForm/{id}(id=${e.id})}"
-							class="btn btn-primary">Update Attendance</a>
-			 </th:block>
-					</div>
+			</div>
+			<div class="card text-white bg-dark text-center col-md-4"
+				style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+				<div class="card-body">
+					<h5 class="card-title mb-5">
+						<i class="fa-solid fa-user-plus card-title"></i>
+					</h5>
+
+					<!-- <th:block th:each="e :${emp}"> -->
+					<a  th:href="@{'/showUpdateAttendanceForm/'+${id}(token=${token})}"
+						class="btn btn-primary">Update Attendance</a>
+					<!-- </th:block> -->
 				</div>
+			</div>
 
 			<div class="card text-white bg-dark text-center col-md-4"
 				style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
