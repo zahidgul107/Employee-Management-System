@@ -61,7 +61,7 @@
 							<i class="fa-solid fa-user-plus card-title"></i>
 						</h5>
 						<p class="card-text" th:text="${employee.firstName+' '+employee.lastName}"></p>
-						<a th:href="@{/viewAttendance/{id}(id=${employee.id})}" class="btn btn-primary">View Attendance</a>
+						<a th:href="@{/viewAttendance/{id}/1(id=${employee.id})}" class="btn btn-primary">View Attendance</a>
 					</a>
 					</div>
 				</div>

@@ -63,7 +63,7 @@
 				<form action="#" th:action="@{/adminLeaveStatus}" th:object="${leaves}" method="POST">
 				
 
-					<th:block th:each="employeeLeave : ${listLeave}">
+					<!-- <th:block th:each="employeeLeave : ${listLeave}"> -->
 					
 						<input type="hidden" th:name="id" th:value="${employeeLeave.id}">
 
@@ -115,13 +115,13 @@
 							<label class="col-form-label">Leave Status</label> <select th:field="*{status}"
 								class="form-select form-group"
 								aria-label="Default select example">
-								<option th:value="Approve">Approved</option>
-								<option th:value="Reject">Rejected</option>
+								<option th:value="Approved">Approved</option>
+								<option th:value="Rejected">Rejected</option>
 							</select>
 						</div>
 
 
-					</th:block>
+					<!-- </th:block> -->
 
 					<button type="submit" class="btn btn-primary mt-5">Submit</button>
 				</form>

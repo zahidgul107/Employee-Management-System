@@ -72,7 +72,6 @@ public class AdminDashboardController {
 	@GetMapping("/adminView")
 	public String employeeView(Model model) {
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
-		// model.addAttribute("count", empLeaveRepo.count());
 		return "admin_view";
 	}
 
@@ -143,56 +142,10 @@ public class AdminDashboardController {
 		return "redirect:/adminView";
 	}
 	
-/*	@GetMapping("/search")
-	public String search(Model model, HttpSession session) {
-
-		if (session.getAttribute("UserSearch") != null) {
-			session.setAttribute("UserSearch", null);
-		}
-
-		int page = 0;
-		Pageable pageable = PageRequest.of(page, 10);
-		Page<AppUser> list = userRepository.findAll(pageable);
-		model.addAttribute("list", list.getContent());
-		session.setAttribute("currentPage", page);
-		model.addAttribute("totalPages", list.getTotalPages());
-		model.addAttribute("currentPage", page);
-
-		return "user-list";
-	}
-	
-	@GetMapping("/search/{page}")
-	public String listUser(@PathVariable("page") int page, Model model, HttpSession session) {
-		Pageable pageable = PageRequest.of(page, 10);
-		if (session.getAttribute("UserSearch") != null) {
-			String search = (String) session.getAttribute("UserSearch");
-			
-			  Page<AppUser> list = userRepository
-					  .findByNameContainingIgnoreCaseOrPhoneNumberContainingIgnoreCaseOrAddressContainingIgnoreCase(
-					   search, search, search, pageable);
-			 
-			model.addAttribute("list", list.getContent());
-			session.setAttribute("currentPage", page);
-			model.addAttribute("totalPages", list.getTotalPages());
-			session.setAttribute("UserSearch", search);
-			model.addAttribute("UserSearch", search);
-		} else {
-			Page<AppUser> list = userRepository.findAll(pageable);
-			model.addAttribute("list", list.getContent());
-			session.setAttribute("currentPage", page);
-			model.addAttribute("totalPages", list.getTotalPages());
-		}
-		model.addAttribute("currentPage", page);
-		return "user-list";
-
-	}		*/
-	
 	@GetMapping("/viewEmployees/{page}")
 	public String viewPaginatedEmployees(@PathVariable(value = "page")int page,Model model) {
-	//	model.addAttribute("listEmployees", empRepo.findAll());
 		Pageable pageable = PageRequest.of(page-1, 10);
 		Page<Employee> list = empRepo.findAll(pageable);
-		System.err.println(list.getContent()+"contenttttttttttttttttttttttttttttttttt");
 		model.addAttribute("listEmployees", list.getContent());
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", list.getTotalPages());
@@ -206,15 +159,10 @@ public class AdminDashboardController {
 		int page = 1;
 		Pageable pageable = PageRequest.of(page-1, 10);
 		Page<Employee> list = empRepo.findAll(pageable);
-		for (Employee employee : list) {
-			System.err.println(employee.getEmail()+"contentttttttttttttttttttttttttttttttttv");
-		}
-		
 		model.addAttribute("listEmployees", list.getContent());
-		System.err.println(list.getTotalPages()+"contentttttttttttttttttttttttttttttttttv");
 		model.addAttribute("totalPages", list.getTotalPages());
+		model.addAttribute("totalItems", list.getTotalElements());
 		model.addAttribute("currentPage", page);
-//		model.addAttribute("listEmployees", empRepo.findAll());
 		return "view_employees";
 	}
 
@@ -269,30 +217,44 @@ public class AdminDashboardController {
 		return "view_employees_attendance";
 	}
 
-	@GetMapping("/viewAttendance/{id}")
+/*	@GetMapping("/viewAttendance/{id}")
 	public String viewAttendance(@PathVariable(value = "id") long id, Model model) {
-
-		List<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id);
-		model.addAttribute("attendanceList", attendanceList);
-		for (Attendance employeeAttendance : attendanceList) {
-			System.err.println(employeeAttendance.getStatus() + "<<<<<<<<<<<<");
-		}
-
-		/*
-		 * List<Attendance> attendanceList = attendanceRepo.findAll(); for (Attendance
-		 * attendance : attendanceList) {
-		 * System.out.println(attendance.getTaskAssigned()); }
-		 * model.addAttribute("attendanceList", attendanceList);
-		 */
+		
+		int page = 1;
+		Pageable pageable = PageRequest.of(page-1, 5);
+		Page<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id,pageable);
+		model.addAttribute("attendanceList", attendanceList.getContent());
+		model.addAttribute("currentPages", page);
+		model.addAttribute("totalPages", attendanceList.getTotalPages());
+		model.addAttribute("totalItems", attendanceList.getTotalElements());
 		return "view_attendance";
-
+	}		*/
+	
+	@GetMapping("/viewAttendance/{id}/{page}")
+	public String viewPaginatedAttendance(@PathVariable(value = "id") long id,@PathVariable(value = "page")int page,Model model) {
+		
+		Pageable pageable = PageRequest.of(page-1, 5);
+		Page<Attendance> attendanceList = attendanceRepo.findByEmployeeId(id, pageable);
+		List<Attendance> list = attendanceList.getContent();
+		for (Attendance attendance : list) {
+			model.addAttribute("empId", attendance.getEmployee().getId());
+		}
+		model.addAttribute("attendanceList", list);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", attendanceList.getTotalPages());
+		model.addAttribute("totalItems", attendanceList.getTotalElements());
+		return "view_attendance";
 	}
 
 	@GetMapping("/viewEmployeesLeave")
 	public String viewEmployeesLeave(Model model) {
-//		model.addAttribute("listEmployees", empRepo.findAll());
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
-		model.addAttribute("listLeave", listLeave);
+		for (EmployeeLeave Leave : listLeave) {
+			System.err.println(Leave.getEmployee().getFirstName());
+			model.addAttribute("Leave", Leave);
+			
+		}
+		
 		model.addAttribute("count", empLeaveRepo.findByStatus("created").size());
 		return "view_employees_leave";
 	}
@@ -301,9 +263,15 @@ public class AdminDashboardController {
 	public String viewLeave(@PathVariable(value = "id") int id, Model model) {
 
 		List<EmployeeLeave> listLeave = empLeaveRepo.findByStatus("created");
+		for (EmployeeLeave employeeLeave : listLeave) {
+		//	System.err.println(employeeLeave.getEmployee().getId());
+		//	System.err.println(employeeLeave.getReason());
+			System.err.println(employeeLeave.getFromDate()+ " : "+employeeLeave.getToDate());
+			model.addAttribute("employeeLeave", employeeLeave);
+		}
 		model.addAttribute("listLeave", listLeave);
 		for (EmployeeLeave employeeLeave : listLeave) {
-			System.err.println(employeeLeave.getReason() + "<<<<<<<<<<<<");
+		//	System.err.println(employeeLeave.getReason() + "<<<<<<<<<<<<");
 		}
 
 		EmployeeLeave leaves = new EmployeeLeave();

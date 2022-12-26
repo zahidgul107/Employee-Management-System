@@ -1,7 +1,10 @@
 package com.emp.management.repository;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +28,20 @@ public interface EmployeeLeaveRepository extends JpaRepository<EmployeeLeave, Lo
 	
 	
 	  //@Query("Select a from EmployeeLeave a where a.status=:status")
-	  List<EmployeeLeave> findByEmployeeAndStatus(Employee employee, String status);
+	  Page<EmployeeLeave> findByEmployeeAndStatus(Employee employee, String status, Pageable pageable);
+
+	EmployeeLeave findByFromDate(Date fromDate);
+
+	@Query("Select u from EmployeeLeave u where u.toDate=:toDate")
+	EmployeeLeave checkByToDate(@Param("toDate")Date toDate);
+	
+	EmployeeLeave findByToDate(Date toDate);
+
+//	List<EmployeeLeave> findByEmployeeAndStatus(Employee employee, String status, Pageable pageable);
+
+	//Object findByFromDateOrToDate(Date fromDate);
+
+//	Object findByFromDateOrToDate(Date fromDate);
 	 
 	
 

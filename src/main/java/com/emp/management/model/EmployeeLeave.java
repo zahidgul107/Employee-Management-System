@@ -8,14 +8,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class EmployeeLeave {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String fromDate;
-	private String toDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date fromDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date toDate;
+	
 	private String reason;
 	private String status;
 	
@@ -40,19 +49,19 @@ public class EmployeeLeave {
 
 
 
-	public String getFromDate() {
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 
-	public String getToDate() {
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 

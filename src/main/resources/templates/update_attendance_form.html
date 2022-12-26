@@ -86,6 +86,8 @@
 							
 							<input th:name="employee.id" th:value="${att.employee.id}" type="hidden" class="form-control"
 							id="exampleInputEmail1" aria-describedby="emailHelp">
+							
+							<input th:name="token" th:value="${token}" type="text" class="form-control">
 					
 					<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Employee
@@ -125,7 +127,7 @@
 
 						<label class="col-form-label">Status</label>
 						<select th:field="*{status}" class="form-select form-group"
-							aria-label="Default select example">
+							aria-label="Default select example" required>
 							<option th:value="'Completed'">Completed</option>
 							<option th:value="'Pending'">Pending</option>
 						</select>

@@ -57,27 +57,27 @@
 	<div class="container">
 
 		<div class="row justify-content-around">
-			<th:block th:each="leave : ${listLeave}">
-				<!--  		<th:block th:each="employee : ${employees}">		-->
-				<div class="card text-white bg-dark text-center col-md-4 mt-5"
-					style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+			<div class="card text-white bg-dark text-center col-md-4 mt-5"
+				style="max-width: 18rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 
-					<span
-						th:classappend="${count}? 'position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle' : 'visually-hidden'">
-						<span class="visually-hidden">New alerts</span>
-					</span>
+				<!-- <span
+					th:classappend="${count}? 'position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle' : 'visually-hidden'">
+					<span class="visually-hidden">New alerts</span>
+				</span> -->
+				
+				 <span th:text="${count}"
+					class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span
+					class="visually-hidden">unread messages</span> </span>
 
-					<div class="card-body">
-						<h5 class="card-title mb-5">
-							<i class="fa-solid fa-user-plus card-title"></i>
-						</h5>
-						<p class="card-text" th:text="${leave.employee.firstName}"></p>
-						<a th:href="@{/viewLeave/{id}(id=${leave.employee.id})}"
-							class="btn btn-primary">View Leave</a> </a>
-					</div>
+				<div class="card-body">
+					<h5 class="card-title mb-5">
+						<i class="fa-solid fa-user-plus card-title"></i>
+					</h5>
+					<p class="card-text" th:text="${Leave.employee.firstName}"></p>
+					<a th:href="@{/viewLeave/{id}(id=${Leave.employee.id})}"
+						class="btn btn-primary">View Leave</a> </a>
 				</div>
-				<!-- 			</th:block>			-->
-			</th:block>
+			</div>
 		</div>
 	</div>
 
