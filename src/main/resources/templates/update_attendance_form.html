@@ -34,7 +34,7 @@
 					<li class="nav-item"><a class="nav-link" href="#"><i
 							class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/employeeView}">Home</a></li>
+						aria-current="page" th:href="@{/employeeView(token=${token})}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -66,36 +66,26 @@
 					<div th:if="${fail != null}" th:text="${fail}" id="failMessage"
 						class="alert alert-danger mssg" role="alert"></div>
 
-						<!-- <div class="mb-3">
-							<label class="col-form-label">Employee Name</label> <select
-								th:field="*{employee}" class="form-select form-group"
-								aria-label="Default select example">
-								<th:block th:each="employee : ${listEmployees}">
-									<option
-										th:text="${employee.firstName} +' '+${employee.lastName}"
-										th:value="${employee.id}" readonly />
-							
-							</select>
-						</div> -->
-
-
 					<th:block th:each="att :${timeInAttendance}">
-					
-					<input th:name="id" th:value="${att.id}" type="hidden" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
-							
-							<input th:name="employee.id" th:value="${att.employee.id}" type="hidden" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
-							
-							<input th:name="token" th:value="${token}" type="text" class="form-control">
-					
-					<div class="mb-3">
+
+						<input th:name="id" th:value="${att.id}" type="hidden"
+							class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp">
+
+						<input th:name="employee.id" th:value="${att.employee.id}"
+							type="hidden" class="form-control" id="exampleInputEmail1"
+							aria-describedby="emailHelp">
+
+						<input type="hidden" name="token" th:value="${token}">
+
+						<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Employee
-								Name</label> <input th:value="${att.employee.firstName+' '+att.employee.lastName}" type="text"
-								class="form-control" id="exampleInputEmail1"
+								Name</label> <input
+								th:value="${att.employee.firstName+' '+att.employee.lastName}"
+								type="text" class="form-control" id="exampleInputEmail1"
 								aria-describedby="emailHelp" readonly>
 						</div>
-					
+
 						<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Attendance
 								Date</label> <input th:name="date" th:value="${att.date}" type="date"
@@ -112,8 +102,8 @@
 
 						<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Time
-								Out</label> <input th:name="timeOut" th:value="${attendance.timeOut}" type="time"
-								class="form-control" id="exampleInputEmail1"
+								Out</label> <input th:name="timeOut" th:value="${attendance.timeOut}"
+								type="time" class="form-control" id="exampleInputEmail1"
 								aria-describedby="emailHelp" readonly />
 						</div>
 
@@ -121,8 +111,9 @@
 						<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Task
 								Assigned</label>
-							<textarea th:name="taskAssigned" th:text="${att.taskAssigned}" class="form-control"
-								id="exampleInputEmail1" aria-describedby="emailHelp" readonly></textarea>
+							<textarea th:name="taskAssigned" th:text="${att.taskAssigned}"
+								class="form-control" id="exampleInputEmail1"
+								aria-describedby="emailHelp" readonly></textarea>
 						</div>
 
 						<label class="col-form-label">Status</label>

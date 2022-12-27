@@ -94,7 +94,7 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a th:href="@{/showLeaveForm}" class="btn btn-primary">Request
+					<a th:href="@{/showLeaveForm(token=${token})}" class="btn btn-primary">Request
 						Leave</a>
 				</div>
 			</div>
@@ -109,7 +109,7 @@
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
 
-					<a th:href="@{/showEmployeeLeaveStatus}" class="btn btn-primary">Leave
+					<a th:href="@{/showEmployeeLeaveStatus(token=${token})}" class="btn btn-primary">Leave
 						Status</a>
 
 				</div>
