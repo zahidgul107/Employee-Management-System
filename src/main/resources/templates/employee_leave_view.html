@@ -34,7 +34,7 @@
 				<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/employeeView}">Home</a></li>
+						aria-current="page" th:href="@{/employeeView(token=${token})}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><i
 							class="fa-solid fa-right-to-bracket fa-lg"></i></a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
@@ -68,7 +68,7 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a th:href="@{/showLeaveStatus/Approved/1}" class="btn btn-primary">Approved Leave</a>
+					<a th:href="@{'/showLeaveStatus/Approved/'+1(token=${token})}" class="btn btn-primary">Approved Leave</a>
 				</div>
 			</div>
 
@@ -78,7 +78,7 @@
 					<h5 class="card-title mb-5">
 						<i class="fa-solid fa-user-plus card-title"></i>
 					</h5>
-					<a th:href="@{/showLeaveStatus/Rejected/1}" class="btn btn-primary">Rejected Leave</a>
+					<a th:href="@{'/showLeaveStatus/Rejected/'+1(token=${token})}" class="btn btn-primary">Rejected Leave</a>
 				</div>
 			</div>
 

@@ -101,7 +101,7 @@ public class EmployeeDashboard {
 	@PostMapping("/saveAttendance")
 	public String saveAttendance(@RequestParam String token,@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
 	//	System.err.println(token);
-		if (attendanceRepo.findByDate(attendance.getDate()) != null) {
+		if ( attendanceRepo.findByDate(attendance.getDate()) != null) {
 			rd.addAttribute("token", token);
 			rd.addFlashAttribute("fail", "Attendance already done");
 			return "redirect:/showAttendanceForm";
@@ -114,57 +114,67 @@ public class EmployeeDashboard {
 	}
 
 	@GetMapping("/showUpdateAttendanceForm/{id}")
-	public String showUpdateAttendanceForm(@RequestParam String token,@PathVariable(value = "id") long id, Model model) {
-		System.err.println(token);
-		model.addAttribute("token", token);
-		String timeOut = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+	public String showUpdateAttendanceForm(@RequestParam String token,@PathVariable(value = "id") long id, Model model,RedirectAttributes rd) {
+	//	System.err.println(token);
 		List<Attendance> timeInAttendance = attendanceRepo.findByEmployeeIdAndTimeOutIsNull(id);
-		model.addAttribute("timeInAttendance", timeInAttendance);
-		for (Attendance attendance : timeInAttendance) {
-			System.err.println(attendance.getTimeIn());
+		for (Attendance att : timeInAttendance) {
+			if (att.getTimeOut() == null) {
+				String timeOut = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+				model.addAttribute("timeInAttendance", timeInAttendance);
+				Attendance attendance = new Attendance();
+				attendance.setTimeOut(timeOut);
+				model.addAttribute("attendance", attendance);
+				model.addAttribute("token", token);
+			//	model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
+				return "update_attendance_form";	
+			} 
 		}
-		Attendance attendance = new Attendance();
-		attendance.setTimeOut(timeOut);
-		model.addAttribute("attendance", attendance);
-	//	model.addAttribute("listEmployees", employeeRepo.findByTokenIsNotNull());
-
-		return "update_attendance_form";
+		rd.addFlashAttribute("success", "You have already taken attendance");
+		rd.addAttribute("token", token);
+		return "redirect:/employeeView";
+		
 	}
 
 	@PostMapping("/updateAttendance")
-	public String saveUpdatedAttendance(@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
-		Attendance att = attendanceRepo.findById(attendance.getId()).get();
-		if (att.getTimeOut() != null) {
-			rd.addFlashAttribute("success", "You have already taken attendance");
-			return "redirect:/employeeView";
-		} else {
-			System.err.println("hereeeeeeeeeeeeeeeeeeeeee");
+	public String saveUpdatedAttendance(@RequestParam String token,@ModelAttribute("attendance") Attendance attendance, RedirectAttributes rd) {
+	//	Attendance att = attendanceRepo.findById(attendance.getId()).get();
+	//	if (att.getTimeOut() != null) {
+	//		rd.addFlashAttribute("success", "You have already taken attendance");
+	//		return "redirect:/employeeView";
+	//	} else {
+	//	System.err.println(token);
+		//	System.err.println("hereeeeeeeeeeeeeeeeeeeeee");
 			attendanceRepo.save(attendance);
 			rd.addFlashAttribute("success", "Attendance updated successfully");
+			rd.addAttribute("token", token);
 			return "redirect:/employeeView";
-		}
+	//	}
 
 	}
 
 	@GetMapping("/showLeaveForm")
-	public String showLeaveForm(Model model) {
-
+	public String showLeaveForm(@RequestParam String token,Model model) {
+	//	System.err.println(token);
 		// create model attribute to bind form data
+		model.addAttribute("token", token);
 		EmployeeLeave leave = new EmployeeLeave();
 		model.addAttribute("leave", leave);
-		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
+		List<Employee> listEmployees = employeeRepo.findByToken(token);
 		model.addAttribute("listEmployees", listEmployees);
 		return "leave_form";
 	}
 
 	@PostMapping("/approveLeave")
-	public String acceptLeave(@ModelAttribute("leave") EmployeeLeave leave, RedirectAttributes rd) {
-		System.err.println(leave.getFromDate());
+	public String acceptLeave(@RequestParam String token,@ModelAttribute("leave") EmployeeLeave leave, RedirectAttributes rd) {
+	//	System.err.println(token);
+	//	System.err.println(leave.getFromDate());
 		if (empLeaveRepo.findByFromDate(leave.getFromDate()) != null) {
 			rd.addFlashAttribute("fail", "Your have already submitted leave from this date");
+			rd.addAttribute("token", token);
 			return "redirect:/showLeaveForm";
 		} else if (empLeaveRepo.findByToDate(leave.getToDate()) != null) {
 			rd.addFlashAttribute("fail", "you have already submitted leave to this date");
+			rd.addFlashAttribute("token", token);
 			return "redirect:/showLeaveForm";
 		}
 		
@@ -172,20 +182,24 @@ public class EmployeeDashboard {
 			leave.setStatus("created");
 			empLeaveRepo.save(leave);
 			rd.addFlashAttribute("success", "leave submitted successfull");
+			rd.addAttribute("token", token);
 			return "redirect:/employeeView";
 		}
 	}
 
 	@GetMapping("/showEmployeeLeaveStatus")
-	public String showEmployeeLeaves() {
+	public String showEmployeeLeaves(@RequestParam String token,Model model) {
+	//	System.err.println(token);
+		model.addAttribute("token", token);
 		return "employee_leave_view";
 	}
 
 	@GetMapping("/showLeaveStatus/{status}/{page}")
-	public String showEmployeeLeavedStatus(@PathVariable(value = "status") String status,@PathVariable(value = "page")int page, Model model) {
-
+	public String showEmployeeLeavedStatus(@RequestParam String token,@PathVariable(value = "status") String status,@PathVariable(value = "page")int page, Model model) {
+	//	System.err.println(token);
+		model.addAttribute("token", token);
 		ArrayList<Employee> list = new ArrayList<>();
-		List<Employee> listEmployees = employeeRepo.findByTokenIsNotNull();
+		List<Employee> listEmployees = employeeRepo.findByToken(token);
 		for (Employee employee : listEmployees) {
 		//	System.out.println(employee.getId());
 			list.add(employee);
