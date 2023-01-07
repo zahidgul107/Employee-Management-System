@@ -1,1 +1,1 @@
-web: java -jar target/EmployeeManagementProject-1.0.jar
+web: java -jar target/EmployeeManagementProject-1.0.0.jar

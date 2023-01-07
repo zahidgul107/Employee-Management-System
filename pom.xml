@@ -15,7 +15,7 @@
 	<name>EmployeeManagementProject</name>
 	<description>Employee Management Project</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
