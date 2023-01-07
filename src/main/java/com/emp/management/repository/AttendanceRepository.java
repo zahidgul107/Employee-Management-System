@@ -41,7 +41,13 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 	List<Attendance> findByEmployeeIdAndTimeOutIsNull(long id);
 
 
-	Attendance findByDateAndToken(String token, String date);
+	Object findByEmployeeIdAndDate(long id, String date);
+
+
+	Object findByEmployeeIdAndTimeOutIsNotNull(long id);
+
+//	@Query("Select u from Attendance where e.Employee.token =:token and e.date =:date")
+//	Attendance findByTokenAndDate(@Param("token") String token,@Param("date") String date);
 
 //	@Query("SELECT e FROM Employee e WHERE e.timeOut IS NULL")
 //	List<Attendance> findByTimeOutIsNull(String timeOut);

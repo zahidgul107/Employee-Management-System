@@ -84,19 +84,19 @@
 			<div class="col-sm-1">
 				<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
 					th:if="${currentPage != i}"
-					th:href="@{'/showLeaveStatus/{status}/' + ${i}(status=*{status})}">[[${i}]]</a>
+					th:href="@{'/showLeaveStatus/{status}/' +${i}(status=*{status},token=${token})}">[[${i}]]</a>
 					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 				</span>
 			</div>
 			<div class="col-sm-1">
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/showLeaveStatus/{status}/' + ${currentPage + 1}(status=*{status})}">Next</a>
+					th:href="@{'/showLeaveStatus/{status}/' + ${currentPage + 1}(status=*{status},token=${token})}">Next</a>
 				<span th:unless="${currentPage < totalPages}">Next</span>
 			</div>
 
 			<div class="col-sm-1">
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/showLeaveStatus/{status}/' + ${totalPages}(status=*{status})}">Last</a>
+					th:href="@{'/showLeaveStatus/{status}/' + ${totalPages}(status=*{status},token=${token})}">Last</a>
 				<span th:unless="${currentPage < totalPages}">Last</span>
 			</div>
 		</div>

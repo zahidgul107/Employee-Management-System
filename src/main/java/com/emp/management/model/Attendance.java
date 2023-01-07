@@ -18,7 +18,7 @@ public class Attendance {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String date;
 	
 	private String timeIn;
