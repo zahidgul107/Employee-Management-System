@@ -34,7 +34,7 @@
 					<li class="nav-item"><a class="nav-link" href="#"><i
 							class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/employeeView}">Home</a></li>
+						aria-current="page" th:href="@{/employeeView(token=*{token})}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -87,7 +87,7 @@
 							<input th:name="employee.id" th:value="${att.employee.id}" type="hidden" class="form-control"
 							id="exampleInputEmail1" aria-describedby="emailHelp">
 							
-							<input th:name="token" th:value="${token}" type="text" class="form-control">
+							<input th:name="token" th:value="${token}" type="hidden" class="form-control">
 					
 					<div class="mb-3">
 							<label for="exampleInputEmail1" class="form-label">Employee

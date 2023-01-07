@@ -33,7 +33,7 @@
 					<li class="nav-item"><a class="nav-link" href="#"><i
 							class="fa-solid fa-house-chimney text-white"></i></a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" th:href="@{/employeeView}">Home</a></li>
+						aria-current="page" th:href="@{/employeeView(token=${token})}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Features</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
@@ -84,7 +84,7 @@
 			<div class="col-sm-1">
 				<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
 					th:if="${currentPage != i}"
-					th:href="@{'/showLeaveStatus/{status}/' + ${i}(status=*{status})}">[[${i}]]</a>
+					th:href="@{'/showLeaveStatus/{status}/' + ${i}(token=${token})(status=*{status})}">[[${i}]]</a>
 					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 				</span>
 			</div>
